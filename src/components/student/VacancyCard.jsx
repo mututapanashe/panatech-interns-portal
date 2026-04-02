@@ -30,10 +30,11 @@ function VacancyCard({
 
   return (
     <article
-      className={`overflow-hidden rounded-[28px] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_45%,#fff7ed_100%)] p-5 shadow-[0_22px_60px_-40px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_70px_-42px_rgba(15,23,42,0.24)] ${
+      className={`relative overflow-hidden rounded-[28px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.98)_100%)] p-5 shadow-[0_24px_68px_-42px_rgba(15,23,42,0.18)] ring-1 ring-white/70 transition hover:-translate-y-0.5 hover:shadow-[0_30px_78px_-42px_rgba(15,23,42,0.22)] ${
         isFeatured ? "min-w-[300px] max-w-[320px] flex-shrink-0" : ""
       }`}
     >
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,rgba(249,115,22,0)_0%,rgba(249,115,22,0.4)_35%,rgba(37,99,235,0.36)_70%,rgba(37,99,235,0)_100%)]" />
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-wrap gap-2">
           {vacancy.match?.recommended && <StatusBadge tone="accepted">Recommended</StatusBadge>}
@@ -70,7 +71,7 @@ function VacancyCard({
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-[20px] border border-white/80 bg-white/88 px-4 py-3">
+        <div className="rounded-[20px] border border-slate-200/80 bg-white/90 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
             Location
           </p>
@@ -79,7 +80,7 @@ function VacancyCard({
             {vacancy.location || "Zimbabwe"}
           </p>
         </div>
-        <div className="rounded-[20px] border border-white/80 bg-white/88 px-4 py-3">
+        <div className="rounded-[20px] border border-slate-200/80 bg-white/90 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
             Deadline
           </p>

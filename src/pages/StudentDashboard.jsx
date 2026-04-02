@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   AcademicCapIcon,
   ArrowTopRightOnSquareIcon,
@@ -40,6 +40,7 @@ import EmptyState from "../components/ui/EmptyState";
 import FormField from "../components/ui/FormField";
 import StatusBadge from "../components/ui/StatusBadge";
 import TextField from "../components/ui/TextField";
+import ConfirmModal from "../components/ui/ConfirmModal";
 import { ELIGIBLE_ATTACHMENT_LEVELS } from "../constants/academicLevels";
 import { useAuth } from "../contexts/AuthContext";
 import {
@@ -83,6 +84,24 @@ const mobileBottomNavItems = [
   { id: "upload", label: "CV", icon: DocumentTextIcon },
   { id: "applications", label: "Applications", icon: ClipboardDocumentListIcon },
 ];
+
+const studentRouteBySection = {
+  dashboard: "/dashboard",
+  profile: "/dashboard",
+  apply: "/search",
+  upload: "/cv",
+  analysis: "/cv",
+  applications: "/applications",
+  saved: "/applications",
+  status: "/applications",
+};
+
+const defaultSectionByStudentRoute = {
+  "/dashboard": "dashboard",
+  "/search": "apply",
+  "/cv": "upload",
+  "/applications": "applications",
+};
 
 const fallbackVacancies = [
   {
@@ -262,8 +281,9 @@ const applicationColumns = [
   },
 ];
 
-function StudentDashboard() {
+function StudentDashboard({ initialSection = "dashboard" }) {
   const { user, userProfile, logout, saveStudentProfile, isFirebaseAvailable } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const sectionScrollPositionsRef = useRef({ dashboard: 0 });
@@ -276,7 +296,7 @@ function StudentDashboard() {
   const cvStorageKey = `panatech-${storageScope}-cv`;
   const savedStorageKey = `panatech-${storageScope}-saved-opportunities`;
 
-  const [activeSection, setActiveSection] = useState("dashboard");
+  const [activeSection, setActiveSection] = useState(initialSection);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchFilters, setSearchFilters] = useState({
@@ -286,6 +306,8 @@ function StudentDashboard() {
     type: "",
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [profileState, setProfileState] = useState(createEmptyProfile());
   const [editForm, setEditForm] = useState(buildEditForm());
   const [applications, setApplications] = useState([]);
@@ -327,6 +349,11 @@ function StudentDashboard() {
       window.scrollTo({ top: targetScroll, behavior: "auto" });
     });
   }, [activeSection]);
+
+  useEffect(() => {
+    const routeSection = defaultSectionByStudentRoute[location.pathname] || initialSection;
+    setActiveSection(routeSection);
+  }, [initialSection, location.pathname]);
 
   useEffect(() => {
     if (user && isFirebaseAvailable) {
@@ -841,8 +868,18 @@ function StudentDashboard() {
   );
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/", { replace: true });
+    setIsLoggingOut(true);
+
+    try {
+      await logout();
+      navigate("/login", {
+        replace: true,
+        state: { loggedOut: true },
+      });
+    } finally {
+      setIsLoggingOut(false);
+      setShowLogoutConfirm(false);
+    }
   };
 
   const downloadPreviewDocument = () => {
@@ -864,27 +901,37 @@ function StudentDashboard() {
     setSidebarOpen(false);
 
     if (sectionId === "logout") {
-      await handleLogout();
+      setShowLogoutConfirm(true);
       return;
     }
 
+    const targetPath = studentRouteBySection[sectionId] || "/dashboard";
     setActiveSection(sectionId);
+
+    if (location.pathname !== targetPath) {
+      navigate(targetPath);
+    }
   };
 
   const handleMobileNavSelect = (sectionId) => {
     setSidebarOpen(false);
     setShowFilters(false);
+    const targetPath = studentRouteBySection[sectionId] || "/dashboard";
 
     if (sectionId === "dashboard") {
       sectionScrollPositionsRef.current.dashboard = 0;
     }
 
-    if (activeSection === sectionId) {
+    if (activeSection === sectionId && location.pathname === targetPath) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
     setActiveSection(sectionId);
+
+    if (location.pathname !== targetPath) {
+      navigate(targetPath);
+    }
   };
 
   const handleSaveOpportunity = (vacancy) => {
@@ -2793,7 +2840,7 @@ function StudentDashboard() {
   const selectedVacancyRequiredDocuments = selectedVacancy ? getRequiredDocuments(selectedVacancy) : [];
 
   return (
-    <section className="dashboard-shell relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] p-3 pb-28 sm:p-6 sm:pb-6">
+    <section className="dashboard-shell relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] p-3 pb-28 sm:p-6 sm:pb-6 lg:p-7">
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-[-7rem] top-6 h-64 w-64 rounded-full bg-orange-300/20 blur-3xl" />
         <div className="absolute right-[-6rem] top-12 h-64 w-64 rounded-full bg-sky-300/20 blur-3xl" />
@@ -2807,7 +2854,7 @@ function StudentDashboard() {
         type="file"
       />
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 lg:flex-row lg:gap-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-5 lg:flex-row lg:gap-7">
         <Sidebar
           activeItem={activeSection}
           isOpen={sidebarOpen}
@@ -2821,7 +2868,7 @@ function StudentDashboard() {
           title="Student Panel"
         />
 
-        <div className="w-full flex-1 space-y-4 sm:space-y-5">
+        <div className="w-full flex-1 space-y-5 sm:space-y-6 lg:space-y-7">
           {renderMainContent()}
         </div>
       </div>
@@ -2832,6 +2879,21 @@ function StudentDashboard() {
         onSelect={handleMobileNavSelect}
       />
 
+      <ConfirmModal
+        cancelLabel="Cancel"
+        confirmLabel="Logout"
+        isOpen={showLogoutConfirm}
+        isProcessing={isLoggingOut}
+        message="Are you sure you want to log out?"
+        onCancel={() => {
+          if (!isLoggingOut) {
+            setShowLogoutConfirm(false);
+          }
+        }}
+        onConfirm={handleLogout}
+        title="Log out of your account?"
+      />
+
       {selectedVacancy && (
         <div
           className="fixed inset-0 z-[60] overflow-y-auto bg-slate-950/55 backdrop-blur-sm"
@@ -2839,10 +2901,10 @@ function StudentDashboard() {
         >
           <div className="flex min-h-full items-start justify-center p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:items-center sm:p-4">
             <div
-              className="flex w-full max-w-2xl flex-col overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_32px_90px_-42px_rgba(15,23,42,0.38)] sm:rounded-[32px]"
+              className="flex w-full max-w-2xl flex-col overflow-hidden rounded-[28px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(248,250,252,0.98)_100%)] shadow-[0_38px_98px_-44px_rgba(15,23,42,0.42)] ring-1 ring-white/70 sm:rounded-[32px]"
               onClick={(event) => event.stopPropagation()}
             >
-              <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-4 py-4 sm:px-6 sm:py-5">
+              <div className="flex items-start justify-between gap-4 border-b border-slate-200 bg-white/78 px-4 py-4 backdrop-blur sm:px-6 sm:py-5">
                 <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-500">
                     {selectedVacancyMeta?.eyebrow || "Vacancy Details"}
@@ -2872,7 +2934,7 @@ function StudentDashboard() {
 
               <div className="max-h-[calc(100dvh-11rem)] overflow-y-auto px-4 py-4 sm:max-h-[calc(100dvh-13rem)] sm:px-6 sm:py-6">
                 <div className="grid gap-4 md:grid-cols-2">
-                  <article className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-4 sm:p-5">
+                  <article className="rounded-[24px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.94)_100%)] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.12)] ring-1 ring-white/70 sm:p-5">
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                       Vacancy Details
                     </p>
@@ -2934,7 +2996,7 @@ function StudentDashboard() {
                   </article>
 
                   {selectedVacancyMeta?.method === "portal" ? (
-                    <article className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,#fff7ed_0%,#ffffff_46%,#eff6ff_100%)] p-4 sm:p-5">
+                    <article className="rounded-[24px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.94)_100%)] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.12)] ring-1 ring-white/70 sm:p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                         Student Profile Check
                       </p>
@@ -2974,7 +3036,7 @@ function StudentDashboard() {
                       )}
                     </article>
                   ) : selectedVacancyMeta?.method === "email" ? (
-                    <article className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,#fff7ed_0%,#ffffff_46%,#eff6ff_100%)] p-4 sm:p-5">
+                    <article className="rounded-[24px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.94)_100%)] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.12)] ring-1 ring-white/70 sm:p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                         Email Application Guide
                       </p>
@@ -2993,7 +3055,7 @@ function StudentDashboard() {
                         </p>
                       </div>
                       {!!selectedVacancy.applicationInstructions && (
-                        <div className="mt-4 rounded-[20px] border border-white/80 bg-white/90 p-4">
+                        <div className="mt-4 rounded-[20px] border border-slate-200/80 bg-white/92 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
                           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
                             Instructions
                           </p>
@@ -3042,7 +3104,7 @@ function StudentDashboard() {
                       )}
                     </article>
                   ) : (
-                    <article className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,#fff7ed_0%,#ffffff_46%,#eff6ff_100%)] p-4 sm:p-5">
+                    <article className="rounded-[24px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.94)_100%)] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.12)] ring-1 ring-white/70 sm:p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                         External Application Guide
                       </p>
@@ -3060,7 +3122,7 @@ function StudentDashboard() {
                         </p>
                       </div>
                       {!!selectedVacancy.applicationInstructions && (
-                        <div className="mt-4 rounded-[20px] border border-white/80 bg-white/90 p-4">
+                        <div className="mt-4 rounded-[20px] border border-slate-200/80 bg-white/92 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
                           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
                             Instructions
                           </p>
@@ -3094,7 +3156,7 @@ function StudentDashboard() {
                 </div>
               </div>
 
-              <div className="border-t border-slate-200 bg-white/95 px-4 py-4 backdrop-blur sm:px-6 sm:py-5">
+              <div className="border-t border-slate-200 bg-white/90 px-4 py-4 backdrop-blur sm:px-6 sm:py-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
                   <Button fullWidth onClick={() => setSelectedVacancy(null)} variant="secondary">
                     Cancel

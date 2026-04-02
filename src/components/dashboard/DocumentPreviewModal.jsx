@@ -15,15 +15,15 @@ function DocumentPreviewModal({
 
   return (
     <div
-      className="fixed inset-0 z-[70] overflow-y-auto bg-slate-950/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[70] overflow-y-auto bg-slate-950/62 backdrop-blur-md"
       onClick={onClose}
     >
       <div className="flex min-h-full items-start justify-center p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:items-center sm:p-4">
         <div
-          className="flex w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_32px_90px_-42px_rgba(15,23,42,0.38)] sm:rounded-[32px]"
+          className="flex w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.98)_100%)] shadow-[0_36px_96px_-44px_rgba(15,23,42,0.42)] ring-1 ring-white/70 sm:rounded-[32px]"
           onClick={(event) => event.stopPropagation()}
         >
-          <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-4 py-4 sm:px-6 sm:py-5">
+          <div className="flex items-center justify-between gap-4 border-b border-slate-200 bg-white/78 px-4 py-4 backdrop-blur sm:px-6 sm:py-5">
             <div className="min-w-0">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-500">
                 {eyebrow}
@@ -51,7 +51,7 @@ function DocumentPreviewModal({
           </div>
 
           <div className="p-4 sm:p-6">
-            <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50">
+            <div className="overflow-hidden rounded-[24px] border border-slate-200/90 bg-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]">
               <iframe
                 className="h-[55dvh] w-full bg-white sm:h-[68vh]"
                 src={url}

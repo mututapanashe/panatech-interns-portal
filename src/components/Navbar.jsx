@@ -11,8 +11,8 @@ const publicNavLinks = [
 ];
 
 const studentNavLinks = [
-  { label: "Dashboard", to: "/student-dashboard" },
-  { label: "My Profile", to: "/student-dashboard#profile-overview" },
+  { label: "Dashboard", to: "/dashboard" },
+  { label: "My Profile", to: "/dashboard#profile-overview" },
   { label: "Support", to: "/#contact" },
 ];
 
@@ -30,7 +30,9 @@ function Navbar() {
   const isMinimalAuthNavbar =
     location.pathname === "/login" || location.pathname === "/register";
   const isDashboardRoute =
-    location.pathname === "/student-dashboard" || location.pathname === "/admin-dashboard";
+    ["/dashboard", "/search", "/cv", "/applications", "/student-dashboard", "/admin-dashboard"].includes(
+      location.pathname,
+    );
   const isAdminView = isAdmin || location.pathname === "/admin-dashboard";
   const contextualNavLinks =
     user || isDashboardRoute ? (isAdminView ? adminNavLinks : studentNavLinks) : publicNavLinks;
@@ -40,7 +42,10 @@ function Navbar() {
   const handleLogout = async () => {
     setIsOpen(false);
     await logout();
-    navigate("/");
+    navigate("/login", {
+      replace: true,
+      state: { loggedOut: true },
+    });
   };
 
   const isActiveLink = (to) => {

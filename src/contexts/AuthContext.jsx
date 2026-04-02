@@ -23,6 +23,8 @@ const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || "")
   .split(",")
   .map((item) => item.trim().toLowerCase())
   .filter(Boolean);
+const APP_STORAGE_PREFIX = "panatech-";
+const AUTH_STORAGE_PREFIXES = ["firebase:", APP_STORAGE_PREFIX];
 
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
@@ -37,6 +39,25 @@ function createAuthFlowError(message, code, extra = {}) {
   error.code = code;
   Object.assign(error, extra);
   return error;
+}
+
+function clearStoredSessionData() {
+  [window.localStorage, window.sessionStorage].forEach((storage) => {
+    const keysToRemove = [];
+
+    for (let index = 0; index < storage.length; index += 1) {
+      const key = storage.key(index);
+      if (!key) {
+        continue;
+      }
+
+      if (AUTH_STORAGE_PREFIXES.some((prefix) => key.startsWith(prefix))) {
+        keysToRemove.push(key);
+      }
+    }
+
+    keysToRemove.forEach((key) => storage.removeItem(key));
+  });
 }
 
 function normalizeProfileShape(uid, email, source = {}, role = "student", emailVerified = false) {
@@ -209,12 +230,12 @@ export const AuthProvider = ({ children }) => {
     return normalizedLevel;
   };
 
-  const getDashboardPath = async (account = userProfile) => {
+  const getDashboardPath = (account = userProfile) => {
     if (!account) {
-      return "/student-dashboard";
+      return "/dashboard";
     }
 
-    return account.role === "admin" ? "/admin-dashboard" : "/student-dashboard";
+    return account.role === "admin" ? "/admin-dashboard" : "/dashboard";
   };
 
   const register = async (email, password, name, program, level) => {
@@ -453,13 +474,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    if (isFirebaseAvailable) {
-      await signOut(auth);
+    try {
+      if (isFirebaseAvailable) {
+        await signOut(auth);
+      }
+    } finally {
+      clearStoredSessionData();
+      setUser(null);
+      setUserProfile(null);
+      setUserRole(null);
+      setLoading(false);
     }
-
-    setUser(null);
-    setUserProfile(null);
-    setUserRole(null);
   };
 
   const resetPassword = async (email) => {
@@ -480,6 +505,7 @@ export const AuthProvider = ({ children }) => {
     userProfile,
     userRole,
     isAdmin,
+    isAuthenticated: Boolean(user),
     loading,
     isFirebaseAvailable,
     register,

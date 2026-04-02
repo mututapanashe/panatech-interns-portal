@@ -50,6 +50,14 @@ function Login() {
     setShowResendVerification(true);
   }, [location.state]);
 
+  useEffect(() => {
+    if (!location.state?.loggedOut) {
+      return;
+    }
+
+    setMessage("You've been logged out.");
+  }, [location.state]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -59,9 +67,7 @@ function Login() {
 
     try {
       const credential = await login(email, password, rememberMe);
-      const redirectTo =
-        location.state?.from?.pathname || (await getDashboardPath(credential.user));
-      navigate(redirectTo, { replace: true });
+      navigate(getDashboardPath(credential.user), { replace: true });
     } catch (loginError) {
       setError(formatAuthError(loginError));
       setShowResendVerification(loginError?.code === "auth/email-not-verified");

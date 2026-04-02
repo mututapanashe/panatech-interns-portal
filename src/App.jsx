@@ -4,17 +4,32 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import PrivateRoute from "./components/PrivateRoute";
+import AuthGuard from "./components/AuthGuard";
+import ProtectedRoute from "./components/ProtectedRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import StudentDashboard from "./pages/StudentDashboard";
 
+const workspaceRoutes = new Set([
+  "/dashboard",
+  "/search",
+  "/cv",
+  "/applications",
+  "/student-dashboard",
+  "/admin-dashboard",
+]);
+
 function ScrollManager() {
   const { hash, pathname } = useLocation();
+  const isWorkspaceRoute = workspaceRoutes.has(pathname);
 
   useEffect(() => {
+    if (isWorkspaceRoute) {
+      return;
+    }
+
     if (hash) {
       window.setTimeout(() => {
         const section = document.querySelector(hash);
@@ -26,7 +41,7 @@ function ScrollManager() {
     }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [pathname, hash]);
+  }, [hash, isWorkspaceRoute, pathname]);
 
   return null;
 }
@@ -34,8 +49,7 @@ function ScrollManager() {
 function App() {
   const location = useLocation();
   const isAuthRoute = location.pathname === "/login" || location.pathname === "/register";
-  const isWorkspaceRoute =
-    location.pathname === "/student-dashboard" || location.pathname === "/admin-dashboard";
+  const isWorkspaceRoute = workspaceRoutes.has(location.pathname);
 
   return (
     <div className="app-shell">
@@ -58,22 +72,64 @@ function App() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/login"
+            element={
+              <AuthGuard>
+                <Login />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <AuthGuard>
+                <Register />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute requireStudent>
+                <StudentDashboard initialSection="dashboard" />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <ProtectedRoute requireStudent>
+                <StudentDashboard initialSection="apply" />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cv"
+            element={
+              <ProtectedRoute requireStudent>
+                <StudentDashboard initialSection="upload" />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/applications"
+            element={
+              <ProtectedRoute requireStudent>
+                <StudentDashboard initialSection="applications" />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/student-dashboard"
-            element={
-              <PrivateRoute>
-                <StudentDashboard />
-              </PrivateRoute>
-            }
+            element={<Navigate replace to="/dashboard" />}
           />
           <Route
             path="/admin-dashboard"
             element={
-              <PrivateRoute requireAdmin>
+              <ProtectedRoute requireAdmin>
                 <AdminDashboard />
-              </PrivateRoute>
+              </ProtectedRoute>
             }
           />
           <Route path="*" element={<Navigate replace to="/" />} />

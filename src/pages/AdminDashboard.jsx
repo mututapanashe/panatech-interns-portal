@@ -28,6 +28,7 @@ import EmptyState from "../components/ui/EmptyState";
 import FormField from "../components/ui/FormField";
 import StatusBadge from "../components/ui/StatusBadge";
 import TextField from "../components/ui/TextField";
+import ConfirmModal from "../components/ui/ConfirmModal";
 import { useAuth } from "../contexts/AuthContext";
 import { generateAdminAiInsight } from "../services/aiInsights";
 import {
@@ -180,6 +181,8 @@ function AdminDashboard() {
 
   const [activeSection, setActiveSection] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [applications, setApplications] = useState([]);
   const [vacancies, setVacancies] = useState([]);
   const [students, setStudents] = useState([]);
@@ -497,15 +500,25 @@ function AdminDashboard() {
   );
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/", { replace: true });
+    setIsLoggingOut(true);
+
+    try {
+      await logout();
+      navigate("/login", {
+        replace: true,
+        state: { loggedOut: true },
+      });
+    } finally {
+      setIsLoggingOut(false);
+      setShowLogoutConfirm(false);
+    }
   };
 
   const selectSection = async (sectionId) => {
     setSidebarOpen(false);
 
     if (sectionId === "logout") {
-      await handleLogout();
+      setShowLogoutConfirm(true);
       return;
     }
 
@@ -1578,13 +1591,13 @@ function AdminDashboard() {
   };
 
   return (
-    <section className="dashboard-shell relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] p-3 sm:p-6">
+    <section className="dashboard-shell relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] p-3 sm:p-6 lg:p-7">
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-[-7rem] top-6 h-64 w-64 rounded-full bg-orange-300/18 blur-3xl" />
         <div className="absolute right-[-6rem] top-12 h-64 w-64 rounded-full bg-sky-300/18 blur-3xl" />
       </div>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 lg:flex-row lg:gap-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-5 lg:flex-row lg:gap-7">
         <Sidebar
           activeItem={activeSection}
           isOpen={sidebarOpen}
@@ -1598,7 +1611,7 @@ function AdminDashboard() {
           title="Admin Panel"
         />
 
-        <div className="w-full flex-1 space-y-4 sm:space-y-5">
+        <div className="w-full flex-1 space-y-5 sm:space-y-6 lg:space-y-7">
           {renderMainContent()}
         </div>
       </div>
@@ -1611,6 +1624,20 @@ function AdminDashboard() {
         onDownload={handleDownloadPreviewCv}
         title="Student CV Preview"
         url={cvPreview.url}
+      />
+      <ConfirmModal
+        cancelLabel="Cancel"
+        confirmLabel="Logout"
+        isOpen={showLogoutConfirm}
+        isProcessing={isLoggingOut}
+        message="Are you sure you want to log out?"
+        onCancel={() => {
+          if (!isLoggingOut) {
+            setShowLogoutConfirm(false);
+          }
+        }}
+        onConfirm={handleLogout}
+        title="Log out of your account?"
       />
     </section>
   );
