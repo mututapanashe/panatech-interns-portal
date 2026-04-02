@@ -13,8 +13,8 @@ function SearchDiscoveryIcon({ className = "" }) {
 
 function MobileBottomNav({ items, activeItem, onSelect }) {
   return (
-    <nav className="dashboard-ui fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(0.8rem,env(safe-area-inset-bottom))] pt-2.5 lg:hidden">
-      <div className="mx-auto max-w-xl rounded-[1.7rem] border border-slate-200/90 bg-white/92 px-2 py-2 shadow-[0_-18px_48px_-34px_rgba(15,23,42,0.28)] backdrop-blur-2xl">
+    <nav className="dashboard-ui fixed inset-x-0 bottom-0 z-40 border-t border-slate-200/85 bg-white/95 shadow-[0_-18px_42px_-32px_rgba(15,23,42,0.28)] backdrop-blur-2xl lg:hidden">
+      <div className="mx-auto max-w-xl px-3 pb-[max(0.7rem,env(safe-area-inset-bottom))] pt-2">
         <div className="grid grid-cols-4 gap-1.5">
           {items.map((item) => {
             const Icon = item.id === "apply" ? SearchDiscoveryIcon : item.icon;

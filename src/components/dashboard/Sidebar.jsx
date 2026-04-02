@@ -69,32 +69,37 @@ function Sidebar({
       </aside>
 
       <div className="lg:hidden">
-        <div className="dashboard-ui fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/92 shadow-[0_16px_42px_-32px_rgba(15,23,42,0.28)] backdrop-blur-2xl">
-          <div className="mx-auto flex w-full max-w-7xl items-center gap-3 px-4 py-[max(0.78rem,env(safe-area-inset-top))] sm:px-6">
-            <button
-              className="inline-flex h-10 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-[1.05rem] border border-slate-200/90 bg-white text-slate-600 shadow-[0_14px_28px_-24px_rgba(15,23,42,0.24)] transition duration-200 hover:-translate-y-0.5 hover:border-orange-200 hover:bg-slate-50 hover:text-orange-600 hover:shadow-[0_18px_34px_-24px_rgba(15,23,42,0.22)] active:scale-[0.96]"
-              onClick={onOpen}
-              type="button"
-            >
-              <Bars3Icon className="h-5 w-5" />
-            </button>
-            <div className="min-w-0 flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-orange-600">
-                {mobileTitle}
-              </p>
-
-              <div className="mt-0.5 flex items-center gap-2">
-                <span className="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500">
-                  <UserCircleIcon className="h-4 w-4" />
-                </span>
-                <p className="min-w-0 break-words pr-2 text-sm leading-5 text-slate-950">
-                  {mobileSubtitle}
+        <div className="dashboard-ui fixed inset-x-0 top-0 z-50 bg-white/78 backdrop-blur-2xl">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+          <div className="pointer-events-none absolute -left-10 top-0 h-24 w-24 rounded-full bg-orange-100/55 blur-3xl" />
+          <div className="pointer-events-none absolute -right-8 top-1 h-24 w-24 rounded-full bg-blue-100/55 blur-3xl" />
+          <div className="mx-auto max-w-7xl px-4 pb-2 pt-[max(0.58rem,env(safe-area-inset-top))] sm:px-6">
+            <div className="flex items-center gap-2.5 rounded-[1.35rem] border border-white/75 bg-white/88 px-2.5 py-2 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.28)] ring-1 ring-slate-100/80">
+              <button
+                className="inline-flex h-9 w-9 flex-shrink-0 cursor-pointer items-center justify-center rounded-[0.95rem] border border-slate-200/90 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-600 shadow-[0_14px_28px_-24px_rgba(15,23,42,0.24)] transition duration-200 hover:-translate-y-0.5 hover:border-orange-200 hover:bg-white hover:text-orange-600 hover:shadow-[0_18px_34px_-24px_rgba(15,23,42,0.22)] active:scale-[0.96]"
+                onClick={onOpen}
+                type="button"
+              >
+                <Bars3Icon className="h-4.5 w-4.5" />
+              </button>
+              <div className="min-w-0 flex-1 rounded-[1rem] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(248,250,252,0.78)_0%,rgba(255,255,255,0.96)_100%)] px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
+                <p className="text-[9px] font-bold uppercase tracking-[0.24em] text-orange-600">
+                  {mobileTitle}
                 </p>
+
+                <div className="mt-0.5 flex items-center gap-2">
+                  <span className="inline-flex h-5.5 w-5.5 flex-shrink-0 items-center justify-center rounded-full border border-slate-200/80 bg-white text-slate-500 shadow-[0_8px_18px_-16px_rgba(15,23,42,0.45)]">
+                    <UserCircleIcon className="h-3.5 w-3.5" />
+                  </span>
+                  <p className="min-w-0 break-words pr-1 text-[13px] leading-5 text-slate-950">
+                    {mobileSubtitle}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="h-[5.4rem] sm:h-[5.8rem]" />
+        <div className="h-[5.05rem] sm:h-[5.3rem]" />
       </div>
 
       {isOpen && (

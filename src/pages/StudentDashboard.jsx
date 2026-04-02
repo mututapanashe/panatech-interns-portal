@@ -871,6 +871,22 @@ function StudentDashboard() {
     setActiveSection(sectionId);
   };
 
+  const handleMobileNavSelect = (sectionId) => {
+    setSidebarOpen(false);
+    setShowFilters(false);
+
+    if (sectionId === "dashboard") {
+      sectionScrollPositionsRef.current.dashboard = 0;
+    }
+
+    if (activeSection === sectionId) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    setActiveSection(sectionId);
+  };
+
   const handleSaveOpportunity = (vacancy) => {
     const alreadySaved = savedOpportunities.some((item) => item.id === vacancy.id);
     const nextSavedOpportunities = alreadySaved
@@ -2767,7 +2783,7 @@ function StudentDashboard() {
     : activeSection === "analysis"
       ? "upload"
       : activeSection === "profile"
-        ? "dashboard"
+        ? ""
         : activeSection;
   const selectedVacancyAlreadyApplied = selectedVacancy ? hasAppliedToVacancy(selectedVacancy.id) : false;
   const selectedVacancyMeta = selectedVacancy ? getVacancyApplicationMeta(selectedVacancy) : null;
@@ -2813,7 +2829,7 @@ function StudentDashboard() {
       <MobileBottomNav
         activeItem={mobileActiveNav}
         items={mobileBottomNavItems}
-        onSelect={setActiveSection}
+        onSelect={handleMobileNavSelect}
       />
 
       {selectedVacancy && (
