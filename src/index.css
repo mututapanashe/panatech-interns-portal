@@ -122,6 +122,29 @@ img {
   flex-direction: column;
 }
 
+@media (max-width: 768px) {
+  .dashboard-shell {
+    background: linear-gradient(180deg, #e9eef5 0%, #dde6ef 100%);
+  }
+
+  .dashboard-shell .dashboard-surface {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 420px;
+    box-shadow: 0 16px 34px -28px rgba(15, 23, 42, 0.16);
+  }
+
+  .dashboard-shell [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .dashboard-shell [class*="blur-3xl"],
+  .dashboard-shell [class*="blur-2xl"] {
+    filter: blur(24px) !important;
+    opacity: 0.35;
+  }
+}
+
 ::selection {
   background: rgba(249, 115, 22, 0.18);
   color: #0f172a;

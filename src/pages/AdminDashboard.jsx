@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 import AdminTable from "../components/dashboard/AdminTable";
 import DashboardCard from "../components/dashboard/DashboardCard";
 import DocumentPreviewModal from "../components/dashboard/DocumentPreviewModal";
+import MobileBottomNav from "../components/dashboard/MobileBottomNav";
 import Sidebar from "../components/dashboard/Sidebar";
 import StatsCard from "../components/dashboard/StatsCard";
 import Button from "../components/ui/Button";
@@ -61,6 +62,13 @@ const sidebarItems = [
   },
   { id: "reports", label: "Reports / Statistics", icon: ChartBarIcon },
   { id: "logout", label: "Logout", icon: ArrowLeftStartOnRectangleIcon },
+];
+
+const mobileBottomNavItems = [
+  { id: "dashboard", label: "Home", icon: HomeIcon },
+  { id: "manage-vacancies", label: "Vacancies", icon: BriefcaseIcon },
+  { id: "view-applications", label: "Applications", icon: ClipboardDocumentListIcon },
+  { id: "manage-students", label: "Students", icon: UsersIcon },
 ];
 
 const fallbackApplications = [
@@ -327,6 +335,52 @@ function AdminDashboard() {
     [applications.length, reportSummary.openVacancies, reportSummary.review, students.length],
   );
 
+  const dashboardNotifications = useMemo(() => {
+    const items = [];
+
+    if (reportSummary.review > 0) {
+      items.push({
+        id: "admin-review",
+        title: "Applications need review",
+        body: `${reportSummary.review} application${reportSummary.review === 1 ? "" : "s"} ${reportSummary.review === 1 ? "is" : "are"} waiting for action.`,
+        sectionId: "view-applications",
+        tone: "warning",
+      });
+    }
+
+    if (reportSummary.openVacancies === 0) {
+      items.push({
+        id: "admin-vacancies",
+        title: "No active vacancies",
+        body: "Post or reopen vacancies so students can discover current opportunities.",
+        sectionId: "post-vacancy",
+        tone: "warning",
+      });
+    }
+
+    if (students.length > 0) {
+      items.push({
+        id: "admin-students",
+        title: "Student pipeline is active",
+        body: `${students.length} student${students.length === 1 ? "" : "s"} ${students.length === 1 ? "is" : "are"} currently registered on the platform.`,
+        sectionId: "manage-students",
+        tone: "info",
+      });
+    }
+
+    if (applications.length > 0) {
+      items.push({
+        id: "admin-activity",
+        title: "Application activity live",
+        body: `${applications.length} total application${applications.length === 1 ? "" : "s"} ${applications.length === 1 ? "is" : "are"} currently in the system.`,
+        sectionId: "dashboard",
+        tone: "positive",
+      });
+    }
+
+    return items.slice(0, 5);
+  }, [applications.length, reportSummary.openVacancies, reportSummary.review, students.length]);
+
   const actionTiles = [
     {
       label: "Open Vacancies",
@@ -523,6 +577,10 @@ function AdminDashboard() {
     }
 
     setActiveSection(sectionId);
+  };
+
+  const handleMobileNavSelect = (sectionId) => {
+    void selectSection(sectionId);
   };
 
   function closeCvPreview() {
@@ -899,18 +957,18 @@ function AdminDashboard() {
   };
 
   const renderDashboard = () => (
-    <div className="space-y-6">
+    <div className="space-y-7">
       <DashboardCard
-        className="bg-[linear-gradient(135deg,#ffffff_0%,#eff6ff_50%,#fff7ed_100%)]"
+        className="bg-[linear-gradient(135deg,#ffffff_0%,#eef3f9_48%,#e4ebf4_100%)]"
         description="Manage the student pipeline, company-facing vacancy supply, and application flow from one workspace."
         eyebrow="Admin Workspace"
         title="Welcome Admin"
       >
-        <div className="grid gap-4 xl:grid-cols-[1.45fr_0.55fr]">
+        <div className="grid gap-5 xl:grid-cols-[1.45fr_0.55fr]">
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {actionTiles.map((tile) => (
               <div
-                className="rounded-[24px] border border-white/80 bg-white/85 p-4 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.2)]"
+                className="rounded-[24px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(242,246,251,0.96)_100%)] p-4 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.22)]"
                 key={tile.label}
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
@@ -921,11 +979,16 @@ function AdminDashboard() {
             ))}
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+          <div className="rounded-[28px] border border-slate-900/85 bg-[linear-gradient(180deg,#020617_0%,#111827_52%,#1e293b_100%)] p-4 shadow-[0_34px_86px_-44px_rgba(15,23,42,0.62)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-orange-300">
+              Quick Actions
+            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
             <Button onClick={() => setActiveSection("post-vacancy")}>Post New Vacancy</Button>
             <Button onClick={() => setActiveSection("view-applications")} variant="secondary">
               Review Applications
             </Button>
+            </div>
           </div>
         </div>
       </DashboardCard>
@@ -956,7 +1019,7 @@ function AdminDashboard() {
             />
           ) : (
             <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_22px_60px_-36px_rgba(15,23,42,0.18)]">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50/80 px-5 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-300/80 bg-[linear-gradient(180deg,#f8fafc_0%,#eef3f9_100%)] px-5 py-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                     Application Records
@@ -1590,11 +1653,19 @@ function AdminDashboard() {
     }
   };
 
+  const mobileActiveNav = ["post-vacancy", "manage-vacancies"].includes(activeSection)
+    ? "manage-vacancies"
+    : ["view-applications", "update-status"].includes(activeSection)
+      ? "view-applications"
+      : ["manage-students", "reports"].includes(activeSection)
+        ? "manage-students"
+        : activeSection;
+
   return (
-    <section className="dashboard-shell relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] p-3 sm:p-6 lg:p-7">
+    <section className="dashboard-shell relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#e9eef5_0%,#dde6ef_100%)] p-3 pb-28 sm:p-6 sm:pb-28 lg:p-7 lg:pb-32">
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-7rem] top-6 h-64 w-64 rounded-full bg-orange-300/18 blur-3xl" />
-        <div className="absolute right-[-6rem] top-12 h-64 w-64 rounded-full bg-sky-300/18 blur-3xl" />
+        <div className="absolute left-[-7rem] top-6 hidden h-64 w-64 rounded-full bg-orange-300/18 blur-3xl sm:block" />
+        <div className="absolute right-[-6rem] top-12 hidden h-64 w-64 rounded-full bg-sky-300/18 blur-3xl sm:block" />
       </div>
 
       <div className="mx-auto flex max-w-7xl flex-col gap-5 lg:flex-row lg:gap-7">
@@ -1605,16 +1676,24 @@ function AdminDashboard() {
           mobileSubtitle={adminName}
           mobileTitle="Admin Dashboard"
           onClose={() => setSidebarOpen(false)}
+          onNotificationSelect={selectSection}
           onOpen={() => setSidebarOpen(true)}
           onSelect={selectSection}
+          notifications={dashboardNotifications}
           subtitle={adminName}
           title="Admin Panel"
         />
 
-        <div className="w-full flex-1 space-y-5 sm:space-y-6 lg:space-y-7">
+        <div className="w-full flex-1 space-y-4 sm:space-y-5 lg:space-y-6">
           {renderMainContent()}
         </div>
       </div>
+
+      <MobileBottomNav
+        activeItem={mobileActiveNav}
+        items={mobileBottomNavItems}
+        onSelect={handleMobileNavSelect}
+      />
 
       <DocumentPreviewModal
         eyebrow="Student CV"

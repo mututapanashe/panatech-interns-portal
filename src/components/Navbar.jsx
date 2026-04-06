@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, UserCircleIcon, UserPlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../contexts/AuthContext";
 import logo from "../assets/logo.png";
 
@@ -125,15 +125,17 @@ function Navbar() {
           ) : (
             <>
               <Link
-                className="text-sm font-medium text-slate-700 transition hover:text-orange-600"
+                className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 transition hover:text-orange-600"
                 to="/login"
               >
+                <UserCircleIcon className="h-4.5 w-4.5" />
                 Login
               </Link>
               <Link
-                className="rounded-full bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_30px_-16px_rgba(249,115,22,0.75)] transition hover:bg-orange-600"
+                className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_30px_-16px_rgba(249,115,22,0.75)] transition hover:bg-orange-600"
                 to="/register"
               >
+                <UserPlusIcon className="h-4.5 w-4.5" />
                 Create Account
               </Link>
             </>
@@ -184,17 +186,19 @@ function Navbar() {
               ) : (
                 <>
                   <Link
-                    className="rounded-2xl border border-slate-200 px-4 py-3 text-center text-sm font-semibold text-slate-700"
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 px-4 py-3 text-center text-sm font-semibold text-slate-700"
                     onClick={handleMenuClose}
                     to="/login"
                   >
+                    <UserCircleIcon className="h-4.5 w-4.5" />
                     Login
                   </Link>
                   <Link
-                    className="rounded-2xl bg-orange-500 px-4 py-3 text-center text-sm font-semibold text-white"
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-orange-500 px-4 py-3 text-center text-sm font-semibold text-white"
                     onClick={handleMenuClose}
                     to="/register"
                   >
+                    <UserPlusIcon className="h-4.5 w-4.5" />
                     Create Account
                   </Link>
                 </>

@@ -20,20 +20,20 @@ function DocumentPreviewModal({
     >
       <div className="flex min-h-full items-start justify-center p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:items-center sm:p-4">
         <div
-          className="flex w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.98)_100%)] shadow-[0_36px_96px_-44px_rgba(15,23,42,0.42)] ring-1 ring-white/70 sm:rounded-[32px]"
+          className="flex w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(241,245,249,0.98)_100%)] shadow-[0_40px_104px_-42px_rgba(15,23,42,0.44)] ring-1 ring-slate-100/90 sm:rounded-[32px]"
           onClick={(event) => event.stopPropagation()}
         >
-          <div className="flex items-center justify-between gap-4 border-b border-slate-200 bg-white/78 px-4 py-4 backdrop-blur sm:px-6 sm:py-5">
+          <div className="flex items-center justify-between gap-4 border-b border-slate-800/80 bg-[linear-gradient(180deg,#0f172a_0%,#1e293b_100%)] px-4 py-4 sm:px-6 sm:py-5">
             <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-300">
                 {eyebrow}
               </p>
-              <h2 className="mt-2 truncate text-lg text-slate-950 sm:text-xl">{fileName || title}</h2>
+              <h2 className="mt-2 truncate text-lg text-white sm:text-xl">{fileName || title}</h2>
             </div>
             <div className="flex items-center gap-2">
               {typeof onDownload === "function" && (
                 <button
-                  className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-sky-200 hover:text-sky-600"
+                  className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/12 bg-white/10 text-slate-100 transition hover:border-sky-200/60 hover:text-sky-200"
                   onClick={onDownload}
                   type="button"
                 >
@@ -41,7 +41,7 @@ function DocumentPreviewModal({
                 </button>
               )}
               <button
-                className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-orange-200 hover:text-orange-600"
+                className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/12 bg-white/10 text-slate-100 transition hover:border-orange-200/60 hover:text-orange-200"
                 onClick={onClose}
                 type="button"
               >
@@ -50,10 +50,10 @@ function DocumentPreviewModal({
             </div>
           </div>
 
-          <div className="p-4 sm:p-6">
-            <div className="overflow-hidden rounded-[24px] border border-slate-200/90 bg-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]">
+          <div className="p-3 sm:p-5">
+            <div className="overflow-hidden rounded-[24px] border border-slate-300/80 bg-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]">
               <iframe
-                className="h-[55dvh] w-full bg-white sm:h-[68vh]"
+                className="h-[58dvh] w-full bg-white sm:h-[70vh]"
                 src={url}
                 title={title}
               />

@@ -10,14 +10,15 @@ function SectionHeading({
   return (
     <div className={cn("space-y-2.5", className)}>
       {eyebrow && (
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-orange-500">
+        <p className="inline-flex items-center gap-2 rounded-full border border-slate-300/90 bg-slate-950 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-100 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.45)]">
+          <span className="h-1.5 w-1.5 rounded-full bg-orange-400" />
           {eyebrow}
         </p>
       )}
       {title && (
         <h2
           className={cn(
-            "text-[1.65rem] leading-tight text-slate-950 sm:text-[1.95rem]",
+            "text-[1.72rem] leading-tight text-slate-950 sm:text-[2.05rem]",
             titleClassName,
           )}
         >

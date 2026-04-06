@@ -5,6 +5,7 @@ import {
   CheckCircleIcon,
   EyeIcon,
   EyeSlashIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import AuthShell from "../components/auth/AuthShell";
@@ -219,6 +220,7 @@ function Login() {
         )}
 
         <Button disabled={isSubmitting} fullWidth size="lg" type="submit">
+          <UserCircleIcon className="h-4.5 w-4.5" />
           {isSubmitting ? "Logging in..." : "Login"}
           {!isSubmitting && <ArrowRightIcon className="h-4 w-4" />}
         </Button>

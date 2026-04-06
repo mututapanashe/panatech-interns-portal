@@ -638,6 +638,62 @@ function StudentDashboard({ initialSection = "dashboard" }) {
     [applications],
   );
 
+  const dashboardNotifications = useMemo(() => {
+    const items = [];
+
+    if (summary.accepted > 0) {
+      items.push({
+        id: "student-accepted",
+        title: "Application update available",
+        body: `${summary.accepted} application${summary.accepted === 1 ? "" : "s"} ha${summary.accepted === 1 ? "s" : "ve"} moved forward. Check your application status.`,
+        sectionId: "status",
+        tone: "positive",
+      });
+    }
+
+    if (summary.review > 0) {
+      items.push({
+        id: "student-review",
+        title: "Applications under review",
+        body: `${summary.review} application${summary.review === 1 ? "" : "s"} ${summary.review === 1 ? "is" : "are"} currently being reviewed.`,
+        sectionId: "applications",
+        tone: "info",
+      });
+    }
+
+    if (!cvRecord) {
+      items.push({
+        id: "student-cv",
+        title: "CV workspace needs attention",
+        body: "Upload your CV so you are ready when the next attachment opportunity opens.",
+        sectionId: "upload",
+        tone: "warning",
+      });
+    }
+
+    if (recommendedVacancies.length > 0) {
+      items.push({
+        id: "student-recommended",
+        title: "Fresh recommended opportunities",
+        body: `${recommendedVacancies.length} recommended opportunit${recommendedVacancies.length === 1 ? "y is" : "ies are"} ready for review.`,
+        sectionId: "apply",
+        tone: "info",
+      });
+    }
+
+    if (savedOpportunities.length > 0) {
+      items.push({
+        id: "student-saved",
+        title: "Saved opportunities waiting",
+        body: `${savedOpportunities.length} saved opportunit${savedOpportunities.length === 1 ? "y is" : "ies are"} still waiting for your next move.`,
+        sectionId: "saved",
+        tone: "warning",
+      });
+    }
+
+    return items.slice(0, 5);
+  }, [cvRecord, recommendedVacancies.length, savedOpportunities.length, summary.accepted, summary.review]);
+
   const summaryCards = useMemo(
     () => [
       {
@@ -1630,14 +1686,14 @@ function StudentDashboard({ initialSection = "dashboard" }) {
   };
 
   const renderDashboard = () => (
-    <div className="space-y-6">
+    <div className="space-y-7">
       <DashboardCard
-        className="bg-[radial-gradient(circle_at_top_left,rgba(255,237,213,0.95),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(219,234,254,0.9),transparent_38%),linear-gradient(135deg,#ffffff_0%,#f8fafc_42%,#fff7ed_100%)]"
+        className="bg-[linear-gradient(135deg,#ffffff_0%,#eef3f9_48%,#e4ebf4_100%)]"
         description="Look for attachment opportunities, manage applications, and track your progress from one place."
         eyebrow="Student Workspace"
         title={welcomeTitle}
       >
-        <div className="grid gap-6 xl:grid-cols-[1.22fr_0.78fr]">
+        <div className="grid gap-5 xl:grid-cols-[1.22fr_0.78fr]">
           <div>
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {spotlightTiles.map((tile) => {
@@ -1645,7 +1701,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
 
                 return (
                   <article
-                    className="rounded-[26px] border border-white/80 bg-white/84 p-4 shadow-[0_22px_55px_-34px_rgba(15,23,42,0.22)] backdrop-blur-sm"
+                    className="rounded-[26px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(242,246,251,0.96)_100%)] p-4 shadow-[0_22px_55px_-30px_rgba(15,23,42,0.24)]"
                     key={tile.label}
                   >
                     <div className="flex items-start gap-4">
@@ -1669,7 +1725,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
             <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {profileTiles.map((tile) => (
                 <article
-                  className="rounded-[22px] border border-slate-200/80 bg-white/80 px-4 py-3"
+                  className="rounded-[22px] border border-slate-300/80 bg-white/88 px-4 py-3 shadow-[0_16px_36px_-28px_rgba(15,23,42,0.2)]"
                   key={tile.label}
                 >
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
@@ -1682,7 +1738,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
           </div>
 
           <div className="grid gap-4">
-            <article className="overflow-hidden rounded-[30px] border border-slate-200/80 bg-slate-950 p-5 text-white shadow-[0_30px_80px_-42px_rgba(15,23,42,0.55)]">
+            <article className="overflow-hidden rounded-[30px] border border-slate-900/80 bg-[linear-gradient(180deg,#020617_0%,#111827_50%,#1e293b_100%)] p-5 text-white shadow-[0_34px_86px_-42px_rgba(15,23,42,0.62)]">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-300">
@@ -1713,7 +1769,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
               </p>
             </article>
 
-            <article className="rounded-[28px] border border-slate-200 bg-white/90 p-5 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.18)]">
+            <article className="rounded-[28px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(241,245,249,0.97)_100%)] p-5 shadow-[0_24px_60px_-34px_rgba(15,23,42,0.22)]">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                 Completion Checklist
               </p>
@@ -1729,7 +1785,11 @@ function StudentDashboard({ initialSection = "dashboard" }) {
               </div>
             </article>
 
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+            <div className="rounded-[28px] border border-slate-300/80 bg-white/90 p-4 shadow-[0_22px_60px_-34px_rgba(15,23,42,0.2)]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                Quick Actions
+              </p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
               <Button onClick={() => setActiveSection("apply")}>Find Opportunities</Button>
               <Button onClick={() => setActiveSection("upload")} variant="secondary">
                 Open CV Workspace
@@ -1740,6 +1800,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
               <Button onClick={() => setActiveSection("analysis")} variant="ghost">
                 AI CV Analysis
               </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -1759,7 +1820,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
       </section>
 
       <DashboardCard
-        className="bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_42%,#eff6ff_100%)]"
+        className="bg-[linear-gradient(135deg,#ffffff_0%,#edf3f9_45%,#e7eef7_100%)]"
         description="A curated stream of opportunities that feel most relevant to your current student profile."
         eyebrow="Best Matches For You"
         title={`Top picks for ${studentFirstName}`}
@@ -1785,7 +1846,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
         </DashboardCard>
 
         <DashboardCard
-          className="bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_42%,#eff6ff_100%)]"
+          className="bg-[linear-gradient(135deg,#ffffff_0%,#edf3f9_45%,#e7eef7_100%)]"
           description="A premium, step-by-step view of what should happen next in your attachment journey."
           eyebrow="Attachment Roadmap"
           title="Build momentum"
@@ -1793,8 +1854,10 @@ function StudentDashboard({ initialSection = "dashboard" }) {
           <div className="grid gap-4">
             {roadmapSteps.map((step, index) => (
               <article
-                className={`rounded-[24px] border p-5 shadow-[0_22px_55px_-38px_rgba(15,23,42,0.2)] ${
-                  step.done ? "border-emerald-100 bg-white/92" : "border-slate-200 bg-white/88"
+                className={`rounded-[24px] border p-5 shadow-[0_22px_55px_-34px_rgba(15,23,42,0.22)] ${
+                  step.done
+                    ? "border-emerald-100 bg-[linear-gradient(180deg,#ffffff_0%,#f0fdf4_100%)]"
+                    : "border-slate-300/80 bg-[linear-gradient(180deg,#ffffff_0%,#f3f6fa_100%)]"
                 }`}
                 key={step.title}
               >
@@ -2840,10 +2903,10 @@ function StudentDashboard({ initialSection = "dashboard" }) {
   const selectedVacancyRequiredDocuments = selectedVacancy ? getRequiredDocuments(selectedVacancy) : [];
 
   return (
-    <section className="dashboard-shell relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] p-3 pb-28 sm:p-6 sm:pb-6 lg:p-7">
+    <section className="dashboard-shell relative min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#e9eef5_0%,#dde6ef_100%)] p-3 pb-28 sm:p-6 sm:pb-28 lg:p-7 lg:pb-32">
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-7rem] top-6 h-64 w-64 rounded-full bg-orange-300/20 blur-3xl" />
-        <div className="absolute right-[-6rem] top-12 h-64 w-64 rounded-full bg-sky-300/20 blur-3xl" />
+        <div className="absolute left-[-7rem] top-6 hidden h-64 w-64 rounded-full bg-orange-300/20 blur-3xl sm:block" />
+        <div className="absolute right-[-6rem] top-12 hidden h-64 w-64 rounded-full bg-sky-300/20 blur-3xl sm:block" />
       </div>
 
       <input
@@ -2862,13 +2925,15 @@ function StudentDashboard({ initialSection = "dashboard" }) {
           mobileSubtitle={studentName}
           mobileTitle="Student Dashboard"
           onClose={() => setSidebarOpen(false)}
+          onNotificationSelect={selectSection}
           onOpen={() => setSidebarOpen(true)}
           onSelect={selectSection}
+          notifications={dashboardNotifications}
           subtitle={studentName}
           title="Student Panel"
         />
 
-        <div className="w-full flex-1 space-y-5 sm:space-y-6 lg:space-y-7">
+        <div className="w-full flex-1 space-y-4 sm:space-y-5 lg:space-y-6">
           {renderMainContent()}
         </div>
       </div>
@@ -2901,18 +2966,18 @@ function StudentDashboard({ initialSection = "dashboard" }) {
         >
           <div className="flex min-h-full items-start justify-center p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:items-center sm:p-4">
             <div
-              className="flex w-full max-w-2xl flex-col overflow-hidden rounded-[28px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(248,250,252,0.98)_100%)] shadow-[0_38px_98px_-44px_rgba(15,23,42,0.42)] ring-1 ring-white/70 sm:rounded-[32px]"
+              className="flex w-full max-w-2xl flex-col overflow-hidden rounded-[28px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(241,245,249,0.98)_100%)] shadow-[0_40px_104px_-42px_rgba(15,23,42,0.44)] ring-1 ring-slate-100/90 sm:rounded-[32px]"
               onClick={(event) => event.stopPropagation()}
             >
-              <div className="flex items-start justify-between gap-4 border-b border-slate-200 bg-white/78 px-4 py-4 backdrop-blur sm:px-6 sm:py-5">
+              <div className="flex items-start justify-between gap-4 border-b border-slate-800/80 bg-[linear-gradient(180deg,#0f172a_0%,#1e293b_100%)] px-4 py-4 sm:px-6 sm:py-5">
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-500">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-300">
                     {selectedVacancyMeta?.eyebrow || "Vacancy Details"}
                   </p>
-                  <h2 className="mt-3 text-xl leading-snug text-slate-950 sm:text-2xl">
+                  <h2 className="mt-3 text-xl leading-snug text-white sm:text-2xl">
                     {selectedVacancy.vacancyTitle || selectedVacancy.position}
                   </h2>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                  <p className="mt-2 text-sm leading-7 text-slate-300">
                     {selectedVacancy.companyName || selectedVacancy.company}
                   </p>
                   {selectedVacancyMeta && (
@@ -2924,7 +2989,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
                   )}
                 </div>
                 <button
-                  className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-orange-200 hover:text-orange-600"
+                  className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/10 text-slate-100 transition hover:border-orange-200/60 hover:text-orange-200"
                   onClick={() => setSelectedVacancy(null)}
                   type="button"
                 >
@@ -2932,9 +2997,9 @@ function StudentDashboard({ initialSection = "dashboard" }) {
                 </button>
               </div>
 
-              <div className="max-h-[calc(100dvh-11rem)] overflow-y-auto px-4 py-4 sm:max-h-[calc(100dvh-13rem)] sm:px-6 sm:py-6">
+              <div className="max-h-[calc(100dvh-11rem)] overflow-y-auto px-3 py-3 sm:max-h-[calc(100dvh-13rem)] sm:px-5 sm:py-5">
                 <div className="grid gap-4 md:grid-cols-2">
-                  <article className="rounded-[24px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.94)_100%)] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.12)] ring-1 ring-white/70 sm:p-5">
+                  <article className="rounded-[24px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.97)_0%,rgba(241,245,249,0.95)_100%)] p-4 shadow-[0_18px_48px_-34px_rgba(15,23,42,0.18)] ring-1 ring-slate-100/90 sm:p-5">
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                       Vacancy Details
                     </p>
@@ -2996,7 +3061,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
                   </article>
 
                   {selectedVacancyMeta?.method === "portal" ? (
-                    <article className="rounded-[24px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.94)_100%)] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.12)] ring-1 ring-white/70 sm:p-5">
+                    <article className="rounded-[24px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.97)_0%,rgba(241,245,249,0.95)_100%)] p-4 shadow-[0_18px_48px_-34px_rgba(15,23,42,0.18)] ring-1 ring-slate-100/90 sm:p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                         Student Profile Check
                       </p>
@@ -3036,7 +3101,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
                       )}
                     </article>
                   ) : selectedVacancyMeta?.method === "email" ? (
-                    <article className="rounded-[24px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.94)_100%)] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.12)] ring-1 ring-white/70 sm:p-5">
+                    <article className="rounded-[24px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.97)_0%,rgba(241,245,249,0.95)_100%)] p-4 shadow-[0_18px_48px_-34px_rgba(15,23,42,0.18)] ring-1 ring-slate-100/90 sm:p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                         Email Application Guide
                       </p>
@@ -3104,7 +3169,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
                       )}
                     </article>
                   ) : (
-                    <article className="rounded-[24px] border border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.94)_100%)] p-4 shadow-[0_18px_48px_-38px_rgba(15,23,42,0.12)] ring-1 ring-white/70 sm:p-5">
+                    <article className="rounded-[24px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.97)_0%,rgba(241,245,249,0.95)_100%)] p-4 shadow-[0_18px_48px_-34px_rgba(15,23,42,0.18)] ring-1 ring-slate-100/90 sm:p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                         External Application Guide
                       </p>
@@ -3156,7 +3221,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
                 </div>
               </div>
 
-              <div className="border-t border-slate-200 bg-white/90 px-4 py-4 backdrop-blur sm:px-6 sm:py-5">
+              <div className="border-t border-slate-300/80 bg-[linear-gradient(180deg,#f8fafc_0%,#edf3f9_100%)] px-4 py-4 sm:px-6 sm:py-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
                   <Button fullWidth onClick={() => setSelectedVacancy(null)} variant="secondary">
                     Cancel

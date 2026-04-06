@@ -5,6 +5,7 @@ import {
   CheckBadgeIcon,
   EyeIcon,
   EyeSlashIcon,
+  UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import AuthShell from "../components/auth/AuthShell";
@@ -248,6 +249,7 @@ function Register() {
         {error && <AlertBanner tone="error">{error}</AlertBanner>}
 
         <Button disabled={isSubmitting} fullWidth size="lg" type="submit">
+          <UserPlusIcon className="h-4.5 w-4.5" />
           {isSubmitting ? "Creating account..." : "Create Account"}
           {!isSubmitting && <ArrowRightIcon className="h-4 w-4" />}
         </Button>

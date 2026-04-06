@@ -2,8 +2,15 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 function MobileBottomNav({ items, activeItem, onSelect }) {
   return (
-    <nav className="dashboard-ui fixed inset-x-0 bottom-0 z-40 border-t border-slate-300/70 bg-[linear-gradient(180deg,rgba(255,244,238,0.94)_0%,rgba(238,245,255,0.97)_100%)] shadow-[0_-18px_42px_-32px_rgba(15,23,42,0.28)] backdrop-blur-2xl lg:hidden">
-      <div className="mx-auto max-w-xl px-3 pb-[max(0.7rem,env(safe-area-inset-bottom))] pt-2">
+    <nav
+      aria-label="Student dashboard navigation"
+      className="dashboard-ui fixed inset-x-0 bottom-0 z-[70] block lg:hidden"
+    >
+      <div
+        className="border-t border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,244,238,0.98)_0%,rgba(238,245,255,0.99)_100%)] shadow-[0_-18px_42px_-24px_rgba(15,23,42,0.28)]"
+        style={{ paddingBottom: "max(0.7rem, env(safe-area-inset-bottom))" }}
+      >
+        <div className="mx-auto max-w-xl px-3 pt-2">
         <div className="grid grid-cols-4 gap-1.5">
           {items.map((item) => {
             const Icon = item.id === "apply" ? MagnifyingGlassIcon : item.icon;
@@ -39,6 +46,7 @@ function MobileBottomNav({ items, activeItem, onSelect }) {
               </button>
             );
           })}
+        </div>
         </div>
       </div>
     </nav>
