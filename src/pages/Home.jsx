@@ -12,6 +12,7 @@ import {
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import heroImage from "../assets/hero.png";
+import { useAuth } from "../contexts/AuthContext";
 
 const offerings = [
   {
@@ -80,6 +81,10 @@ const applicationStates = [
 ];
 
 function Home() {
+  const { getDashboardPath, loading, user, userProfile } = useAuth();
+  const dashboardPath = getDashboardPath(userProfile || user);
+  const showAuthenticatedCta = !loading && Boolean(user);
+
   return (
     <div className="overflow-hidden">
       <section className="relative px-4 pb-14 pt-8 sm:px-6 md:pb-20">
@@ -108,21 +113,33 @@ function Home() {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Link
-                className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_18px_40px_-18px_rgba(249,115,22,0.75)] transition hover:bg-orange-600"
-                to="/register"
-              >
-                <UserPlusIcon className="mr-2 h-4.5 w-4.5" />
-                Create Account
-                <ArrowRightIcon className="ml-2 h-4 w-4" />
-              </Link>
-              <Link
-                className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-50"
-                to="/login"
-              >
-                <UserCircleIcon className="mr-2 h-4.5 w-4.5" />
-                Login
-              </Link>
+              {showAuthenticatedCta ? (
+                <Link
+                  className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_18px_40px_-18px_rgba(15,23,42,0.55)] transition hover:bg-slate-800"
+                  to={dashboardPath}
+                >
+                  Open Dashboard
+                  <ArrowRightIcon className="ml-2 h-4 w-4" />
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_18px_40px_-18px_rgba(249,115,22,0.75)] transition hover:bg-orange-600"
+                    to="/register"
+                  >
+                    <UserPlusIcon className="mr-2 h-4.5 w-4.5" />
+                    Create Account
+                    <ArrowRightIcon className="ml-2 h-4 w-4" />
+                  </Link>
+                  <Link
+                    className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-50"
+                    to="/login"
+                  >
+                    <UserCircleIcon className="mr-2 h-4.5 w-4.5" />
+                    Login
+                  </Link>
+                </>
+              )}
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3">
@@ -445,20 +462,32 @@ function Home() {
                 industrial attachment journey.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
-                  to="/register"
-                >
-                  <UserPlusIcon className="mr-2 h-4.5 w-4.5" />
-                  Create Account
-                </Link>
-                <Link
-                  className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-                  to="/login"
-                >
-                  <UserCircleIcon className="mr-2 h-4.5 w-4.5" />
-                  Login
-                </Link>
+                {showAuthenticatedCta ? (
+                  <Link
+                    className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+                    to={dashboardPath}
+                  >
+                    Open Dashboard
+                    <ArrowRightIcon className="ml-2 h-4 w-4" />
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+                      to="/register"
+                    >
+                      <UserPlusIcon className="mr-2 h-4.5 w-4.5" />
+                      Create Account
+                    </Link>
+                    <Link
+                      className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                      to="/login"
+                    >
+                      <UserCircleIcon className="mr-2 h-4.5 w-4.5" />
+                      Login
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

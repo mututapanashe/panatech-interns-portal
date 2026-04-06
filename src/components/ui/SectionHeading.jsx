@@ -18,7 +18,7 @@ function SectionHeading({
       {title && (
         <h2
           className={cn(
-            "text-[1.72rem] leading-tight text-slate-950 sm:text-[2.05rem]",
+            "text-[1.55rem] leading-tight text-slate-950 sm:text-[1.8rem] lg:text-[2.05rem]",
             titleClassName,
           )}
         >
@@ -26,7 +26,7 @@ function SectionHeading({
         </h2>
       )}
       {description && (
-        <p className="max-w-3xl text-sm leading-7 text-slate-600 sm:text-[15px] sm:leading-8">
+        <p className="max-w-3xl text-sm leading-7 text-slate-600 sm:text-[15px] sm:leading-7 lg:leading-8">
           {description}
         </p>
       )}

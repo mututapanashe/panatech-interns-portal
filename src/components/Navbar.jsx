@@ -23,7 +23,7 @@ const adminNavLinks = [
 ];
 
 function Navbar() {
-  const { user, logout, isAdmin } = useAuth();
+  const { user, logout, isAdmin, getDashboardPath, userProfile, loading } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -33,9 +33,14 @@ function Navbar() {
     ["/dashboard", "/search", "/cv", "/applications", "/student-dashboard", "/admin-dashboard"].includes(
       location.pathname,
     );
+  const isPublicRoute = !isMinimalAuthNavbar && !isDashboardRoute;
   const isAdminView = isAdmin || location.pathname === "/admin-dashboard";
-  const contextualNavLinks =
-    user || isDashboardRoute ? (isAdminView ? adminNavLinks : studentNavLinks) : publicNavLinks;
+  const contextualNavLinks = isDashboardRoute
+    ? isAdminView
+      ? adminNavLinks
+      : studentNavLinks
+    : publicNavLinks;
+  const dashboardPath = getDashboardPath(userProfile || user);
 
   const handleMenuClose = () => setIsOpen(false);
 
@@ -107,7 +112,14 @@ function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-5 lg:flex">
-          {user ? (
+          {isPublicRoute && loading ? null : isPublicRoute && user ? (
+            <Link
+              className="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:border-orange-200 hover:bg-orange-50"
+              to={dashboardPath}
+            >
+              Open Dashboard
+            </Link>
+          ) : user ? (
             <button
               className="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:border-orange-200 hover:bg-orange-50"
               onClick={handleLogout}
@@ -167,7 +179,15 @@ function Navbar() {
             ))}
 
             <div className="mt-2 grid gap-2">
-              {user ? (
+              {isPublicRoute && loading ? null : isPublicRoute && user ? (
+                <Link
+                  className="rounded-2xl border border-slate-200 px-4 py-3 text-center text-sm font-semibold text-slate-700"
+                  onClick={handleMenuClose}
+                  to={dashboardPath}
+                >
+                  Open Dashboard
+                </Link>
+              ) : user ? (
                 <button
                   className="rounded-2xl border border-slate-200 px-4 py-3 text-left text-sm font-semibold text-slate-700"
                   onClick={handleLogout}

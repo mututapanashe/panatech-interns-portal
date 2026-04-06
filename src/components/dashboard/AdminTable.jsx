@@ -52,16 +52,16 @@ function AdminTable({ columns, rows }) {
         </table>
       </div>
 
-      <div className="grid gap-3.5 md:hidden">
+      <div className="grid gap-3 md:hidden">
         {rows.length > 0 ? (
           rows.map((row) => (
             <article
-              className="dashboard-surface overflow-hidden rounded-[24px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(241,245,249,0.97)_100%)] p-4 shadow-[0_18px_48px_-34px_rgba(15,23,42,0.22)] ring-1 ring-slate-100/90"
+              className="dashboard-surface overflow-hidden rounded-[22px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(241,245,249,0.97)_100%)] p-3.5 shadow-[0_18px_48px_-34px_rgba(15,23,42,0.22)] ring-1 ring-slate-100/90"
               key={row.id}
             >
               {columns.map((column, index) => (
                 <div
-                  className={`mt-2.5 pt-2.5 first:mt-0 first:pt-0 ${
+                  className={`mt-2 pt-2 first:mt-0 first:pt-0 ${
                     index === 0 ? "" : "border-t border-slate-200/90"
                   }`}
                   key={column.key}
@@ -69,7 +69,7 @@ function AdminTable({ columns, rows }) {
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                     {column.label}
                   </p>
-                  <div className="mt-1.5 text-[13px] leading-6 text-slate-700">{renderCell(column, row)}</div>
+                  <div className="mt-1 text-[13px] leading-6 text-slate-700">{renderCell(column, row)}</div>
                 </div>
               ))}
             </article>

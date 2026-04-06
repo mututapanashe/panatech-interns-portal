@@ -30,7 +30,7 @@ function VacancyCard({
 
   return (
     <article
-      className={`dashboard-surface relative overflow-hidden rounded-[28px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(241,245,249,0.98)_100%)] p-5 shadow-[0_24px_68px_-38px_rgba(15,23,42,0.22)] ring-1 ring-slate-100/90 transition hover:-translate-y-0.5 hover:shadow-[0_30px_78px_-38px_rgba(15,23,42,0.26)] ${
+      className={`dashboard-surface relative overflow-hidden rounded-[24px] border border-slate-300/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.99)_0%,rgba(241,245,249,0.98)_100%)] p-4 shadow-[0_24px_68px_-38px_rgba(15,23,42,0.22)] ring-1 ring-slate-100/90 transition hover:-translate-y-0.5 hover:shadow-[0_30px_78px_-38px_rgba(15,23,42,0.26)] sm:rounded-[26px] sm:p-5 lg:rounded-[28px] ${
         isFeatured ? "min-w-[300px] max-w-[320px] flex-shrink-0" : ""
       }`}
     >
@@ -46,7 +46,7 @@ function VacancyCard({
         </div>
         <button
           aria-label={isSaved ? "Unsave vacancy" : "Save vacancy"}
-          className={`inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border transition ${
+          className={`inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border transition sm:h-11 sm:w-11 ${
             isSaved
               ? "border-orange-200 bg-orange-50 text-orange-600"
               : "border-slate-200 bg-white text-slate-500 hover:border-orange-200 hover:text-orange-600"
@@ -62,16 +62,16 @@ function VacancyCard({
         <p className="inline-flex rounded-full border border-slate-200 bg-slate-950 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-100 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.42)]">
           {vacancy.companyName || vacancy.company}
         </p>
-        <h3 className="mt-4 text-2xl leading-snug text-slate-950">
+        <h3 className="mt-3.5 text-[1.45rem] leading-snug text-slate-950 sm:mt-4 sm:text-2xl">
           {vacancy.vacancyTitle || vacancy.position}
         </h3>
-        <p className="mt-3 text-sm leading-7 text-slate-600">
+        <p className="mt-3 text-sm leading-6 text-slate-600 sm:leading-7">
           {trimDescription(vacancy.description, isFeatured ? 190 : 150)}
         </p>
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-[20px] border border-slate-200/90 bg-white/88 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="rounded-[18px] border border-slate-200/90 bg-white/88 px-3.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] sm:rounded-[20px] sm:px-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
             Location
           </p>
@@ -80,7 +80,7 @@ function VacancyCard({
             {vacancy.location || "Zimbabwe"}
           </p>
         </div>
-        <div className="rounded-[20px] border border-slate-200/90 bg-white/88 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
+        <div className="rounded-[18px] border border-slate-200/90 bg-white/88 px-3.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] sm:rounded-[20px] sm:px-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
             Deadline
           </p>
@@ -110,13 +110,13 @@ function VacancyCard({
         </div>
       )}
 
-      <div className="mt-5 border-t border-slate-200/90 pt-4">
+      <div className="mt-4 border-t border-slate-200/90 pt-4">
         <div className="flex flex-col gap-3 sm:flex-row">
-        <Button onClick={onViewDetails} variant="secondary">
+        <Button className="w-full sm:w-auto" onClick={onViewDetails} variant="secondary">
           <EyeIcon className="h-4 w-4" />
           View Details
         </Button>
-        <Button disabled={alreadyApplied} onClick={onApply}>
+        <Button className="w-full sm:w-auto" disabled={alreadyApplied} onClick={onApply}>
           {alreadyApplied ? "Applied" : applicationMeta.actionLabel}
         </Button>
         </div>

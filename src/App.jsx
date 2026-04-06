@@ -94,7 +94,14 @@ function App() {
       <main className="flex-1">
         <Suspense fallback={<RouteFallback />}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route
+              path="/"
+              element={
+                <AuthGuard>
+                  <Home />
+                </AuthGuard>
+              }
+            />
             <Route
               path="/login"
               element={
