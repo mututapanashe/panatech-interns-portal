@@ -2923,7 +2923,7 @@ function StudentDashboard({ initialSection = "dashboard" }) {
           isOpen={sidebarOpen}
           items={sidebarItems}
           mobileSubtitle={studentName}
-          mobileTitle="Student Dashboard"
+          mobileTitle="Dashboard"
           onClose={() => setSidebarOpen(false)}
           onNotificationSelect={selectSection}
           onOpen={() => setSidebarOpen(true)}

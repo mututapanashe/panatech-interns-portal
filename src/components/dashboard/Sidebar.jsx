@@ -133,10 +133,9 @@ function Sidebar({
                 <Bars3Icon className="h-4.5 w-4.5" />
               </button>
               <div className="min-w-0 flex-1 px-1.5 py-0.5">
-                <p className="text-[9px] font-bold uppercase tracking-[0.24em] text-orange-300">
+                <p className="text-[11px] font-bold uppercase leading-none tracking-[0.3em] text-orange-300">
                   {mobileTitle}
                 </p>
-
                 <div className="mt-0.5 flex items-center gap-2">
                   <ProfileAvatar
                     className="h-6 w-6 flex-shrink-0"
@@ -151,7 +150,9 @@ function Sidebar({
               <button
                 aria-label="Open notifications"
                 className="relative inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[0.95rem] border border-white/12 bg-white/8 text-slate-100 shadow-[0_10px_24px_-22px_rgba(15,23,42,0.28)] transition duration-200 hover:-translate-y-0.5 hover:border-orange-300/70 hover:bg-white/14 hover:text-orange-200 active:scale-[0.96]"
-                onClick={() => setNotificationsOpen((current) => !current)}
+                onClick={() => {
+                  setNotificationsOpen((current) => !current);
+                }}
                 type="button"
               >
                 <BellIcon className="h-4.5 w-4.5" />
