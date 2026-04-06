@@ -38,7 +38,7 @@ function MobileBottomNav({ items, activeItem, onSelect }) {
                 </span>
                 <span
                   className={`whitespace-nowrap tracking-[0.01em] ${
-                    isActive ? "font-semibold text-white" : "font-medium text-slate-700"
+                    isActive ? "font-semibold text-white" : "font-semibold text-slate-800"
                   }`}
                 >
                   {item.label}

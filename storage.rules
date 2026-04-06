@@ -11,9 +11,20 @@ service firebase.storage {
         && firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid));
     }
 
+    function isStudentOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isValidCvUpload() {
+      return request.resource != null
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('application/pdf');
+    }
+
     match /student-cvs/{uid}/{allPaths=**} {
-      allow read: if (signedIn() && request.auth.uid == uid) || isAdmin();
-      allow write: if signedIn() && request.auth.uid == uid;
+      allow read: if isStudentOwner(uid) || isAdmin();
+      allow create, update: if isStudentOwner(uid) && isValidCvUpload();
+      allow delete: if isStudentOwner(uid);
     }
   }
 }

@@ -23,9 +23,9 @@ function Footer() {
             {brandLockup}
 
             <p className="max-w-xl text-sm leading-7 text-slate-300">
-              Designed for Zimbabwean university students who want a cleaner way to
-              discover industrial attachment opportunities, manage applications, and stay
-              ready for the next career step.
+              Designed for students who want a cleaner way to discover industrial
+              attachment opportunities, manage applications, and stay ready for the next
+              career step.
             </p>
           </div>
 
@@ -60,7 +60,7 @@ function Footer() {
               </p>
               <p className="flex items-start gap-3">
                 <MapPinIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-orange-300" />
-                Harare, serving students across all universities in Zimbabwe
+                Harare, Zimbabwe
               </p>
             </div>
           </div>
@@ -80,7 +80,7 @@ function Footer() {
           <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-3 px-4">
             {brandLockup}
             <p className="text-center text-xs leading-6 text-slate-400">
-              Student attachment platform for Zimbabwean university students.
+              Student attachment platform built for clearer discovery and tracking.
             </p>
           </div>
         </footer>

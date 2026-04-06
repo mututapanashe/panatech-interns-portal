@@ -131,6 +131,7 @@ function Login() {
       imageAlt="Students preparing documents for industrial attachment"
       imageSrc={heroImage}
       points={benefits}
+      showDesktopShowcase={false}
       tone="dark"
     >
       <SectionHeading

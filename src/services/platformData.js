@@ -213,7 +213,17 @@ export async function updateApplicationStatus(applicationId, status) {
   });
 }
 
-export async function uploadStudentCv(userId, file) {
+export async function uploadStudentCv(userId, file, previousStoragePath = "") {
+  if (previousStoragePath) {
+    try {
+      await deleteObject(ref(storage, previousStoragePath));
+    } catch (error) {
+      if (error?.code !== "storage/object-not-found") {
+        throw error;
+      }
+    }
+  }
+
   const storagePath = `student-cvs/${userId}/${Date.now()}-${sanitizeFileName(file.name)}`;
   const cvReference = ref(storage, storagePath);
   await uploadBytes(cvReference, file);

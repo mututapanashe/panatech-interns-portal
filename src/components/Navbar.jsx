@@ -137,10 +137,10 @@ function Navbar() {
           ) : (
             <>
               <Link
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 transition hover:text-orange-600"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-[0_12px_30px_-22px_rgba(15,23,42,0.28)] transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-950"
                 to="/login"
               >
-                <UserCircleIcon className="h-4.5 w-4.5" />
+                <UserCircleIcon className="h-4.5 w-4.5 text-slate-600" />
                 Login
               </Link>
               <Link

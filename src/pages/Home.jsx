@@ -41,7 +41,8 @@ const universities = [
   "Midlands State University",
   "Chinhoyi University of Technology",
   "Harare Institute of Technology",
-  "CUT and other universities",
+  "Great Zimbabwe University",
+  "Other universities across Zimbabwe",
 ];
 
 const steps = [
@@ -63,9 +64,9 @@ const steps = [
 ];
 
 const campusNotes = [
-  "Open to students from universities across Zimbabwe",
-  "Built around attachment preparation and application flow",
-  "Designed to reduce confusion and keep students organized",
+  "Designed around attachment preparation and application flow",
+  "Keeps student documents, applications, and follow-ups in one place",
+  "Built to reduce confusion and help students stay organized",
 ];
 
 const progressItems = [
@@ -106,9 +107,9 @@ function Home() {
                 Move from scattered searching to a clearer attachment journey.
               </h1>
               <p className="max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-                panaTECH helps students from any university in Zimbabwe find industrial
-                attachment opportunities faster, organize their search properly, and keep
-                track of every important next step.
+                panaTECH helps students find industrial attachment opportunities faster,
+                organize their search properly, and keep track of every important next step
+                in one place.
               </p>
             </div>
 
@@ -147,7 +148,7 @@ function Home() {
                 <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Reach</p>
                 <p className="mt-3 font-display text-2xl text-slate-950">Zimbabwe-wide</p>
                 <p className="mt-2 text-sm leading-7 text-slate-600">
-                  Built for students from universities across the country.
+                  Built for students preparing for industrial attachment across the country.
                 </p>
               </div>
               <div className="rounded-[24px] border border-slate-800 bg-slate-950 p-5 text-white shadow-[0_20px_50px_-24px_rgba(15,23,42,0.45)]">
@@ -194,10 +195,10 @@ function Home() {
                   <div className="grid gap-4">
                     <div className="rounded-[24px] border border-white/10 bg-white/10 p-4">
                       <p className="text-xs uppercase tracking-[0.24em] text-orange-200">
-                        Universities
+                        Built For
                       </p>
                       <p className="mt-3 text-sm leading-7 text-slate-100">
-                        UZ, NUST, MSU, CUT, HIT and more
+                        Students preparing documents, shortlisting placements, and tracking progress with more confidence.
                       </p>
                     </div>
 
@@ -286,12 +287,11 @@ function Home() {
               For Zimbabwean Students
             </p>
             <h2 className="text-4xl leading-tight text-white sm:text-5xl">
-              Whether you study in Harare, Bulawayo, Gweru, Mutare, or elsewhere, the experience should still feel relevant to your journey.
+              Built for students across Zimbabwean universities.
             </h2>
             <p className="text-base leading-8 text-slate-300 sm:text-lg">
-              This platform is designed for students from universities across Zimbabwe who
-              need a clearer way to prepare for industrial attachment and stay organized as
-              they move through the application process.
+              The experience is designed to help students discover attachment opportunities,
+              prepare documents properly, and keep their progress organized from one place.
             </p>
 
             <div className="grid gap-3">
@@ -309,11 +309,25 @@ function Home() {
 
           <div className="grid gap-4">
             <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
-              <p className="text-sm uppercase tracking-[0.24em] text-orange-300">University Reach</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm uppercase tracking-[0.24em] text-orange-300">
+                    University Community
+                  </p>
+                  <h3 className="mt-3 text-2xl leading-snug text-white">
+                    Supporting students across major institutions
+                  </h3>
+                </div>
+                <span className="rounded-full border border-white/10 bg-white/8 px-4 py-2 text-xs uppercase tracking-[0.22em] text-slate-200">
+                  Zimbabwe-wide
+                </span>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {universities.map((item) => (
                   <div
-                    className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100"
+                    className={`rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100 ${
+                      item === "Other universities across Zimbabwe" ? "sm:col-span-2" : ""
+                    }`}
                     key={item}
                   >
                     {item}
@@ -322,7 +336,7 @@ function Home() {
               </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-[1fr_0.78fr]">
+            <div className="grid gap-4 lg:grid-cols-[1fr_0.82fr]">
               <div className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5">
                 <img
                   alt="Students preparing together for industrial attachment"
@@ -333,31 +347,34 @@ function Home() {
 
               <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
                 <p className="text-sm uppercase tracking-[0.24em] text-orange-300">
-                  Student Snapshot
+                  What Students Get
+                </p>
+                <p className="mt-3 text-sm leading-7 text-slate-300">
+                  A clearer structure for preparing, applying, and following through.
                 </p>
                 <div className="mt-4 grid gap-3">
                   <div className="rounded-2xl bg-white/8 px-4 py-3">
                     <p className="text-xs uppercase tracking-[0.18em] text-slate-300">
-                      Program
+                      Discovery
                     </p>
                     <p className="mt-2 text-sm leading-7 text-slate-100">
-                      Business Systems, Computing, Information Systems, Engineering and more
+                      A better way to shortlist opportunities that fit your direction.
                     </p>
                   </div>
                   <div className="rounded-2xl bg-white/8 px-4 py-3">
                     <p className="text-xs uppercase tracking-[0.18em] text-slate-300">
-                      Readiness
+                      Preparation
                     </p>
                     <p className="mt-2 text-sm leading-7 text-slate-100">
-                      One place to keep your search, progress, and next actions visible
+                      One place to keep your documents and next actions ready.
                     </p>
                   </div>
                   <div className="rounded-2xl bg-white/8 px-4 py-3">
                     <p className="text-xs uppercase tracking-[0.18em] text-slate-300">
-                      Direction
+                      Tracking
                     </p>
                     <p className="mt-2 text-sm leading-7 text-slate-100">
-                      Better structure from the first application to the final response
+                      Better visibility from the first application to the final response.
                     </p>
                   </div>
                 </div>
@@ -448,7 +465,7 @@ function Home() {
               <MapPinIcon className="h-7 w-7 text-orange-500" />
               <h3 className="mt-5 text-3xl leading-snug text-slate-950">Zimbabwe Focus</h3>
               <p className="mt-3 text-base leading-8 text-slate-600">
-                Serving students from universities across Zimbabwe with one consistent experience.
+                Built for students across Zimbabwe with one consistent attachment journey.
               </p>
             </div>
 

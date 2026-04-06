@@ -119,6 +119,7 @@ function Register() {
       imageAlt="University students preparing for attachment applications"
       imageSrc={heroImage}
       points={spotlightPoints}
+      showDesktopShowcase={false}
       tone="light"
     >
       <SectionHeading

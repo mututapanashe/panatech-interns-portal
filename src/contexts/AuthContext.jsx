@@ -23,6 +23,7 @@ const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || "")
   .split(",")
   .map((item) => item.trim().toLowerCase())
   .filter(Boolean);
+const allowDevAdminEmailFallback = import.meta.env.DEV && adminEmails.length > 0;
 const APP_STORAGE_PREFIX = "panatech-";
 const AUTH_STORAGE_PREFIXES = ["firebase:", APP_STORAGE_PREFIX];
 
@@ -31,7 +32,7 @@ function normalizeEmail(email) {
 }
 
 function isConfiguredAdminEmail(email) {
-  return adminEmails.includes(normalizeEmail(email));
+  return allowDevAdminEmailFallback && adminEmails.includes(normalizeEmail(email));
 }
 
 function createAuthFlowError(message, code, extra = {}) {

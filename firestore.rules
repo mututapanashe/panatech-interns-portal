@@ -6,6 +6,10 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
     function isAdmin() {
       return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
@@ -14,36 +18,119 @@ service cloud.firestore {
       return signedIn() && exists(/databases/$(database)/documents/companies/$(request.auth.uid));
     }
 
-    function isOwner(uid) {
-      return signedIn() && request.auth.uid == uid;
+    function isStudent() {
+      return signedIn()
+        && !isAdmin()
+        && !isCompany()
+        && exists(/databases/$(database)/documents/students/$(request.auth.uid));
+    }
+
+    function requestEmailMatchesAuth() {
+      return request.auth.token.email != null
+        && request.resource.data.email == request.auth.token.email;
+    }
+
+    function studentProfileIsValid() {
+      return request.resource.data.role == 'student'
+        && requestEmailMatchesAuth();
+    }
+
+    function companyProfileIsValid() {
+      return request.resource.data.role == 'company'
+        && requestEmailMatchesAuth();
+    }
+
+    function validApplicationStatus(status) {
+      return status == 'Submitted'
+        || status == 'Applied - Awaiting Response'
+        || status == 'Under Review'
+        || status == 'Interview'
+        || status == 'Accepted'
+        || status == 'Rejected';
+    }
+
+    function applicationStatusUpdateOnly() {
+      return request.resource.data.diff(resource.data).changedKeys().hasOnly(['status', 'updatedAt'])
+        && validApplicationStatus(request.resource.data.status);
+    }
+
+    function validVacancyOwnerWrite() {
+      return request.resource.data.companyName is string
+        && request.resource.data.vacancyTitle is string
+        && request.resource.data.category is string
+        && request.resource.data.location is string
+        && request.resource.data.deadline is string
+        && request.resource.data.applicationMethod is string
+        && (
+          request.resource.data.applicationMethod == 'portal'
+          || request.resource.data.applicationMethod == 'email'
+          || request.resource.data.applicationMethod == 'external'
+        )
+        && (
+          request.resource.data.applicationMethod != 'email'
+          || (
+            request.resource.data.applicationEmail is string
+            && request.resource.data.applicationEmail.size() > 0
+          )
+        )
+        && (
+          request.resource.data.applicationMethod != 'external'
+          || (
+            request.resource.data.applicationLink is string
+            && request.resource.data.applicationLink.size() > 0
+          )
+        );
     }
 
     match /students/{uid} {
-      allow create: if isOwner(uid);
-      allow get, update: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && studentProfileIsValid();
+      allow get: if isOwner(uid) || isAdmin();
       allow list: if isAdmin();
+      allow update: if isAdmin()
+        || (
+          isOwner(uid)
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.email == resource.data.email
+        );
       allow delete: if false;
     }
 
     match /applications/{applicationId} {
-      allow create: if signedIn()
-        && !isAdmin()
-        && request.resource.data.studentId == request.auth.uid;
-      allow get: if isAdmin()
+      allow create: if isStudent()
+        && request.resource.data.studentId == request.auth.uid
+        && validApplicationStatus(request.resource.data.status);
+      allow get, list: if isAdmin()
         || (signedIn() && resource.data.studentId == request.auth.uid)
         || (isCompany() && resource.data.companyId == request.auth.uid);
-      allow list: if isAdmin()
-        || (signedIn() && resource.data.studentId == request.auth.uid)
-        || (isCompany() && resource.data.companyId == request.auth.uid);
-      allow update: if isAdmin()
-        || (isCompany() && resource.data.companyId == request.auth.uid);
+      allow update: if applicationStatusUpdateOnly()
+        && (
+          isAdmin()
+          || (isCompany() && resource.data.companyId == request.auth.uid)
+        );
       allow delete: if false;
     }
 
     match /vacancies/{vacancyId} {
       allow get, list: if signedIn();
-      allow create: if isAdmin() || isCompany();
-      allow update, delete: if isAdmin()
+      allow create: if validVacancyOwnerWrite()
+        && (
+          isAdmin()
+          || (
+            isCompany()
+            && request.resource.data.companyId == request.auth.uid
+            && request.resource.data.ownerRole == 'company'
+          )
+        );
+      allow update: if validVacancyOwnerWrite()
+        && (
+          isAdmin()
+          || (
+            isCompany()
+            && resource.data.companyId == request.auth.uid
+            && request.resource.data.companyId == resource.data.companyId
+          )
+        );
+      allow delete: if isAdmin()
         || (isCompany() && resource.data.companyId == request.auth.uid);
     }
 
@@ -54,9 +141,15 @@ service cloud.firestore {
     }
 
     match /companies/{uid} {
-      allow create: if isOwner(uid);
-      allow get, update: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && companyProfileIsValid();
+      allow get: if isOwner(uid) || isAdmin();
       allow list: if isAdmin();
+      allow update: if isAdmin()
+        || (
+          isOwner(uid)
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.email == resource.data.email
+        );
       allow delete: if false;
     }
   }

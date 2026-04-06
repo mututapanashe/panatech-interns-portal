@@ -38,6 +38,7 @@ function AuthShell({
   imageAlt,
   imageSrc,
   points,
+  showDesktopShowcase = true,
   tone = "dark",
 }) {
   const palette = shellTones[tone] || shellTones.dark;
@@ -48,42 +49,56 @@ function AuthShell({
       <div className="absolute left-0 top-32 h-56 w-56 rounded-full bg-orange-200/30 blur-3xl" />
       <div className="absolute bottom-8 right-0 h-64 w-64 rounded-full bg-sky-200/35 blur-3xl" />
 
-      <div className="relative mx-auto grid w-full max-w-[82rem] overflow-hidden rounded-[38px] border border-slate-200/80 bg-white/95 shadow-[0_30px_90px_-32px_rgba(15,23,42,0.28)] backdrop-blur lg:grid-cols-[0.95fr_1.05fr]">
-        <aside className={cn("relative hidden overflow-hidden p-12 lg:block xl:p-14", palette.aside)}>
-          <div className={cn("absolute -left-14 top-16 h-40 w-40 rounded-full blur-3xl", palette.orbOne)} />
-          <div className={cn("absolute bottom-10 right-0 h-48 w-48 rounded-full blur-3xl", palette.orbTwo)} />
+      <div
+        className={cn(
+          "relative mx-auto overflow-hidden rounded-[38px] border border-slate-200/80 bg-white/95 shadow-[0_30px_90px_-32px_rgba(15,23,42,0.28)] backdrop-blur",
+          showDesktopShowcase
+            ? "grid w-full max-w-[82rem] lg:grid-cols-[0.95fr_1.05fr]"
+            : "max-w-3xl",
+        )}
+      >
+        {showDesktopShowcase && (
+          <aside className={cn("relative hidden overflow-hidden p-12 lg:block xl:p-14", palette.aside)}>
+            <div className={cn("absolute -left-14 top-16 h-40 w-40 rounded-full blur-3xl", palette.orbOne)} />
+            <div className={cn("absolute bottom-10 right-0 h-48 w-48 rounded-full blur-3xl", palette.orbTwo)} />
 
-          <div className="relative flex h-full flex-col justify-between">
-            <div>
+            <div className="relative flex h-full flex-col justify-between">
               <div>
-                <p className="font-display text-2xl">{brandTitle}</p>
-                <p className={cn("text-xs uppercase tracking-[0.28em]", palette.brandText)}>
-                  {brandEyebrow}
-                </p>
-              </div>
-
-              <h1 className={cn("mt-10 text-5xl leading-tight", palette.headline)}>{headline}</h1>
-              <p className={cn("mt-6 max-w-lg text-base leading-8", palette.description)}>{description}</p>
-            </div>
-
-            <div className="space-y-4">
-              {points.map((item) => (
-                <div className={cn("flex items-start gap-3 rounded-[24px] px-4 py-4", palette.pointCard)} key={item}>
-                  {createElement(PointIcon, {
-                    className: cn("mt-1 h-5 w-5 flex-shrink-0", palette.brandText),
-                  })}
-                  <p className={cn("text-sm leading-7", palette.pointText)}>{item}</p>
+                <div>
+                  <p className="font-display text-2xl">{brandTitle}</p>
+                  <p className={cn("text-xs uppercase tracking-[0.28em]", palette.brandText)}>
+                    {brandEyebrow}
+                  </p>
                 </div>
-              ))}
 
-              <div className={cn("overflow-hidden rounded-[28px]", palette.imageWrap)}>
-                <img alt={imageAlt} className="h-56 w-full object-cover" src={imageSrc} />
+                <h1 className={cn("mt-10 text-5xl leading-tight", palette.headline)}>{headline}</h1>
+                <p className={cn("mt-6 max-w-lg text-base leading-8", palette.description)}>{description}</p>
+              </div>
+
+              <div className="space-y-4">
+                {points.map((item) => (
+                  <div className={cn("flex items-start gap-3 rounded-[24px] px-4 py-4", palette.pointCard)} key={item}>
+                    {createElement(PointIcon, {
+                      className: cn("mt-1 h-5 w-5 flex-shrink-0", palette.brandText),
+                    })}
+                    <p className={cn("text-sm leading-7", palette.pointText)}>{item}</p>
+                  </div>
+                ))}
+
+                <div className={cn("overflow-hidden rounded-[28px]", palette.imageWrap)}>
+                  <img alt={imageAlt} className="h-56 w-full object-cover" src={imageSrc} />
+                </div>
               </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        )}
 
-        <div className="flex h-full items-center p-6 sm:p-10 lg:p-12">
+        <div
+          className={cn(
+            "flex h-full items-center p-6 sm:p-10",
+            showDesktopShowcase ? "lg:p-12" : "lg:p-14",
+          )}
+        >
           <div className={cn("mx-auto w-full lg:py-4", contentWidthClassName)}>{children}</div>
         </div>
       </div>
