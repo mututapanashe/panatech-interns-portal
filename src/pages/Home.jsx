@@ -417,84 +417,32 @@ function Home() {
       </section>
 
       <section className="px-4 pb-16 pt-6 sm:px-6 md:pb-24" id="contact">
-        <div className="mx-auto w-full max-w-7xl overflow-hidden bg-slate-950 text-white">
-          <div className="grid gap-10 bg-[radial-gradient(circle_at_15%_15%,rgba(249,115,22,0.28),transparent_30%),radial-gradient(circle_at_85%_20%,rgba(14,165,233,0.22),transparent_28%)] px-6 py-10 md:px-10 lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="space-y-5">
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-300">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="grid gap-8 border-t border-slate-200 pt-9 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-500">
                 Contact
               </p>
-              <h2 className="text-4xl leading-tight text-white sm:text-5xl">
-                Need help, have a question, or want to connect around student attachment support?
+              <h2 className="mt-4 max-w-2xl text-3xl leading-tight text-slate-950 sm:text-4xl">
+                Need help with student attachment support?
               </h2>
-              <p className="text-lg leading-8 text-slate-300">
-                Get guidance, ask questions, or connect with the team when you need support
-                around the attachment process.
+              <p className="mt-4 max-w-xl text-base leading-8 text-slate-600">
+                Reach the team for guidance, questions, or support around the attachment process.
               </p>
             </div>
 
-            <div className="flex flex-col justify-between gap-8">
-              <div className="grid gap-5 border-y border-white/15 py-6 sm:grid-cols-2">
-                <div className="flex items-start gap-3">
-                  <EnvelopeIcon className="mt-1 h-6 w-6 flex-shrink-0 text-orange-300" />
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.22em] text-slate-400">
-                      Email Support
-                    </p>
-                    <p className="mt-2 text-base text-white">support@panatech.co.zw</p>
-                  </div>
+            <div className="border-t border-slate-200 pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center bg-orange-500 text-white">
+                  <EnvelopeIcon className="h-6 w-6" />
                 </div>
-
-                <div className="flex items-start gap-3">
-                  <MapPinIcon className="mt-1 h-6 w-6 flex-shrink-0 text-orange-300" />
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.22em] text-slate-400">
-                      Zimbabwe Focus
-                    </p>
-                    <p className="mt-2 text-base leading-7 text-white">
-                      Built around one consistent attachment journey.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-sm uppercase tracking-[0.26em] text-orange-300">
-                  Get Started
-                </p>
-                <h3 className="mt-4 text-3xl leading-snug text-white">
-                  Ready to build your student profile and begin your attachment search?
-                </h3>
-                <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
-                  Create an account to begin with a cleaner, more organized way to manage
-                  your industrial attachment journey.
-                </p>
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  {showAuthenticatedCta ? (
-                    <Link
-                      className="inline-flex items-center justify-center rounded-xl bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
-                      to={dashboardPath}
-                    >
-                      Open Dashboard
-                      <ArrowRightIcon className="ml-2 h-4 w-4" />
-                    </Link>
-                  ) : (
-                    <>
-                      <Link
-                        className="inline-flex items-center justify-center rounded-xl bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
-                        to="/register"
-                      >
-                        <UserPlusIcon className="mr-2 h-4.5 w-4.5" />
-                        Create Account
-                      </Link>
-                      <Link
-                        className="inline-flex items-center justify-center rounded-xl border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-                        to="/login"
-                      >
-                        <UserCircleIcon className="mr-2 h-4.5 w-4.5" />
-                        Login
-                      </Link>
-                    </>
-                  )}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                    Email Support
+                  </p>
+                  <p className="mt-2 text-base font-semibold text-slate-950">
+                    support@panatech.co.zw
+                  </p>
                 </div>
               </div>
             </div>
