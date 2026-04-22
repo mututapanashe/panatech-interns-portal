@@ -311,11 +311,13 @@ function Home() {
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-300">
               For Zimbabwean Students
             </p>
-            <img
-              alt="Zimbabwe flag visual"
-              className="h-44 w-full object-cover sm:h-56 lg:h-64"
-              src={zimbabweVisual}
-            />
+            <div className="-mx-4 sm:mx-0">
+              <img
+                alt="Zimbabwe flag visual"
+                className="h-44 w-screen object-cover sm:h-56 sm:w-full lg:h-64"
+                src={zimbabweVisual}
+              />
+            </div>
             <h2 className="max-w-2xl text-4xl leading-tight text-white sm:text-5xl">
               Built for students across Zimbabwean universities.
             </h2>
