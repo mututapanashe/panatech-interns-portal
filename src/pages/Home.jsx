@@ -69,18 +69,6 @@ const campusNotes = [
   "Built to reduce confusion and help students stay organized",
 ];
 
-const progressItems = [
-  { label: "Profile setup", tone: "bg-orange-400", width: "w-4/5" },
-  { label: "Applications sent", tone: "bg-sky-400", width: "w-3/5" },
-  { label: "Follow-ups", tone: "bg-slate-300", width: "w-2/5" },
-];
-
-const applicationStates = [
-  { label: "Applied", tone: "bg-sky-400" },
-  { label: "Under Review", tone: "bg-orange-400" },
-  { label: "Interview", tone: "bg-emerald-400" },
-];
-
 function Home() {
   const { getDashboardPath, loading, user, userProfile } = useAuth();
   const dashboardPath = getDashboardPath(userProfile || user);
@@ -150,142 +138,69 @@ function Home() {
         </div>
       </section>
 
-      <section className="px-4 py-12 sm:px-6 md:py-16" id="overview">
-        <div className="mx-auto w-full max-w-7xl">
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_20px_50px_-28px_rgba(15,23,42,0.2)]">
-              <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Reach</p>
-              <p className="mt-3 font-display text-2xl text-slate-950">Zimbabwe-wide</p>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                Built for students preparing for industrial attachment across the country.
+      <section className="border-y border-slate-200 bg-white px-4 py-10 sm:px-6" id="overview">
+        <div className="mx-auto grid w-full max-w-7xl gap-8 md:grid-cols-3 md:divide-x md:divide-slate-200">
+          {[
+            {
+              label: "Reach",
+              title: "Zimbabwe-wide",
+              text: "Built for students preparing for industrial attachment across the country.",
+            },
+            {
+              label: "Focus",
+              title: "Attachment-ready",
+              text: "A platform shaped around preparation, application, and follow-through.",
+            },
+            {
+              label: "Result",
+              title: "More clarity",
+              text: "A cleaner way to know what has been done and what comes next.",
+            },
+          ].map((item) => (
+            <div className="md:px-8 first:md:pl-0 last:md:pr-0" key={item.title}>
+              <p className="text-sm uppercase tracking-[0.28em] text-orange-500">{item.label}</p>
+              <p className="mt-3 font-display text-3xl leading-tight text-slate-950">
+                {item.title}
               </p>
+              <p className="mt-3 max-w-sm text-sm leading-7 text-slate-600">{item.text}</p>
             </div>
-            <div className="rounded-[24px] border border-slate-900 bg-slate-950 p-5 text-white shadow-[0_20px_50px_-28px_rgba(15,23,42,0.42)]">
-              <p className="text-sm uppercase tracking-[0.2em] text-orange-200">Focus</p>
-              <p className="mt-3 font-display text-2xl text-white">Attachment-ready</p>
-              <p className="mt-2 text-sm leading-7 text-slate-300">
-                A platform shaped around preparation, application, and follow-through.
-              </p>
-            </div>
-            <div className="rounded-[24px] border border-orange-200 bg-orange-50 p-5 shadow-[0_20px_50px_-28px_rgba(249,115,22,0.18)]">
-              <p className="text-sm uppercase tracking-[0.2em] text-orange-500">Result</p>
-              <p className="mt-3 font-display text-2xl text-slate-950">More clarity</p>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                A cleaner way to know what has been done and what comes next.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-6 grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
-            <div className="rounded-[34px] border border-slate-200 bg-white p-4 shadow-[0_28px_70px_-34px_rgba(15,23,42,0.28)]">
-              <div className="rounded-[28px] bg-[linear-gradient(140deg,#0f172a_0%,#1d4ed8_58%,#f97316_100%)] p-5 text-white">
-                <p className="text-sm uppercase tracking-[0.24em] text-orange-200">
-                  Student View
-                </p>
-                <h2 className="mt-3 text-3xl leading-tight text-white">
-                  Search, prepare, and track in one steady flow
-                </h2>
-
-                <div className="mt-6 grid gap-4 sm:grid-cols-[1.08fr_0.92fr]">
-                  <div className="rounded-[24px] border border-white/10 bg-white/10 p-5">
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <p className="text-sm font-semibold text-white">Recommended role</p>
-                        <p className="mt-1 text-xs text-slate-300">Software support trainee</p>
-                      </div>
-                      <span className="rounded-full bg-orange-400/20 px-3 py-1 text-xs text-orange-100">
-                        92% match
-                      </span>
-                    </div>
-
-                    <div className="mt-5 rounded-2xl bg-white/10 p-4">
-                      <p className="text-xs uppercase tracking-[0.24em] text-orange-200">
-                        Built For
-                      </p>
-                      <p className="mt-3 text-sm leading-7 text-slate-100">
-                        Students preparing documents, shortlisting placements, and tracking progress with more confidence.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="rounded-[24px] border border-white/10 bg-white/10 p-4">
-                    <div className="mb-3 flex items-center justify-between text-xs uppercase tracking-[0.18em] text-slate-300">
-                      <span>Applications</span>
-                      <span>Updated</span>
-                    </div>
-                    <div className="grid gap-2">
-                      {applicationStates.map((state) => (
-                        <div
-                          className="flex items-center justify-between rounded-xl bg-white/8 px-3 py-2"
-                          key={state.label}
-                        >
-                          <span className="text-sm text-slate-100">{state.label}</span>
-                          <span className={`h-2.5 w-2.5 rounded-full ${state.tone}`} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-[34px] border border-slate-200 bg-white p-6 shadow-[0_28px_70px_-34px_rgba(15,23,42,0.24)]">
-              <p className="text-sm uppercase tracking-[0.24em] text-orange-500">
-                Readiness
-              </p>
-              <h2 className="mt-3 text-3xl leading-tight text-slate-950">
-                Keep every important attachment step visible.
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-slate-600">
-                A simple workspace helps students stay aware of preparation, submissions, and follow-ups without guessing.
-              </p>
-
-              <div className="mt-6 grid gap-4">
-                {progressItems.map((item) => (
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4" key={item.label}>
-                    <div className="mb-2 flex items-center justify-between text-sm text-slate-700">
-                      <span>{item.label}</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-slate-200">
-                      <div className={`h-2 rounded-full ${item.tone} ${item.width}`} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      <section className="px-4 py-14 sm:px-6 md:py-20" id="offerings">
-        <div className="mx-auto w-full max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
+      <section className="px-4 py-16 sm:px-6 md:py-24" id="offerings">
+        <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+          <div className="lg:sticky lg:top-28">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-500">
               What We Offer
             </p>
             <h2 className="mt-4 text-4xl leading-tight text-slate-950 sm:text-5xl">
-              A student platform shaped around the attachment process
+              The platform flow, without the noise.
             </h2>
-            <p className="mt-4 text-lg leading-8 text-slate-600">
-              The experience is designed around how students search, prepare documents, and
-              manage multiple applications while balancing academic life.
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Instead of scattering updates across chats, emails, and spreadsheets, panaTECH
+              gives students one clearer journey from discovery to follow-up.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          <div className="border-y border-slate-200">
             {offerings.map((item) => {
               const Icon = item.icon;
 
               return (
                 <article
-                  className="group rounded-[32px] border border-slate-200 bg-white p-7 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.24)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_-28px_rgba(15,23,42,0.3)]"
+                  className="group grid gap-5 border-b border-slate-200 py-8 last:border-b-0 sm:grid-cols-[4rem_1fr] sm:py-10"
                   key={item.title}
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-orange-500">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full border border-orange-200 bg-orange-50 text-orange-500 transition group-hover:scale-105 group-hover:border-orange-400">
                     <Icon className="h-7 w-7" />
                   </div>
-                  <h3 className="mt-6 text-3xl leading-snug text-slate-950">{item.title}</h3>
-                  <p className="mt-4 text-base leading-8 text-slate-600">{item.description}</p>
+                  <div>
+                    <h3 className="text-3xl leading-snug text-slate-950">{item.title}</h3>
+                    <p className="mt-3 max-w-2xl text-base leading-8 text-slate-600">
+                      {item.description}
+                    </p>
+                  </div>
                 </article>
               );
             })}
@@ -293,26 +208,23 @@ function Home() {
         </div>
       </section>
 
-      <section className="px-4 py-14 sm:px-6 md:py-20" id="students">
-        <div className="mx-auto grid w-full max-w-7xl gap-10 rounded-[40px] bg-slate-950 px-6 py-10 text-white shadow-[0_30px_80px_-28px_rgba(15,23,42,0.85)] md:px-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div className="space-y-6">
+      <section className="bg-slate-950 px-4 py-16 text-white sm:px-6 md:py-24" id="students">
+        <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+          <div className="space-y-7">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-300">
               For Zimbabwean Students
             </p>
-            <h2 className="text-4xl leading-tight text-white sm:text-5xl">
+            <h2 className="max-w-2xl text-4xl leading-tight text-white sm:text-5xl">
               Built for students across Zimbabwean universities.
             </h2>
-            <p className="text-base leading-8 text-slate-300 sm:text-lg">
-              The experience is designed to help students discover attachment opportunities,
-              prepare documents properly, and keep their progress organized from one place.
+            <p className="max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
+              The experience helps students discover attachment opportunities, prepare
+              documents properly, and keep their progress organized from one place.
             </p>
 
-            <div className="grid gap-3">
+            <div className="grid gap-4 border-l border-white/15 pl-5">
               {campusNotes.map((note) => (
-                <p
-                  className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-7 text-slate-200"
-                  key={note}
-                >
+                <p className="flex items-start gap-3 text-sm leading-7 text-slate-200" key={note}>
                   <CheckCircleIcon className="mt-1 h-5 w-5 flex-shrink-0 text-orange-300" />
                   {note}
                 </p>
@@ -320,103 +232,63 @@ function Home() {
             </div>
           </div>
 
-          <div className="grid gap-4">
-            <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
-              <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="space-y-10">
+            <div>
+              <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/15 pb-5">
                 <div>
                   <p className="text-sm uppercase tracking-[0.24em] text-orange-300">
                     University Community
                   </p>
-                  <h3 className="mt-3 text-2xl leading-snug text-white">
+                  <h3 className="mt-3 text-3xl leading-snug text-white">
                     Supporting students across major institutions
                   </h3>
                 </div>
-                <span className="rounded-full border border-white/10 bg-white/8 px-4 py-2 text-xs uppercase tracking-[0.22em] text-slate-200">
+                <span className="text-xs uppercase tracking-[0.22em] text-slate-400">
                   Zimbabwe-wide
                 </span>
               </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+
+              <div className="mt-6 flex flex-wrap gap-3">
                 {universities.map((item) => (
-                  <div
-                    className={`rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100 ${
-                      item === "Other universities across Zimbabwe" ? "sm:col-span-2" : ""
-                    }`}
+                  <span
+                    className="rounded-full border border-white/15 px-4 py-2 text-sm text-slate-100"
                     key={item}
                   >
                     {item}
-                  </div>
+                  </span>
                 ))}
               </div>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-[1fr_0.82fr]">
-              <div className="rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_20%_20%,rgba(249,115,22,0.24),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.10),rgba(255,255,255,0.04))] p-5">
+            <div className="grid gap-8 border-t border-white/15 pt-8 md:grid-cols-[0.8fr_1.2fr]">
+              <div>
                 <p className="text-sm uppercase tracking-[0.24em] text-orange-300">
                   Student Journey
                 </p>
-                <div className="mt-5 grid gap-4">
-                  {steps.map((step, index) => (
-                    <div
-                      className="rounded-2xl border border-white/10 bg-white/8 px-4 py-4"
-                      key={step.title}
-                    >
-                      <div className="flex items-start gap-3">
-                        <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-sm font-bold text-slate-950">
-                          {index + 1}
-                        </span>
-                        <div>
-                          <p className="text-base font-semibold text-white">{step.title}</p>
-                          <p className="mt-1 text-sm leading-7 text-slate-300">
-                            {step.description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <p className="mt-3 text-sm leading-7 text-slate-300">
+                  A clear route from account setup to follow-through.
+                </p>
               </div>
 
-              <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
-                <p className="text-sm uppercase tracking-[0.24em] text-orange-300">
-                  What Students Get
-                </p>
-                <p className="mt-3 text-sm leading-7 text-slate-300">
-                  A clearer structure for preparing, applying, and following through.
-                </p>
-                <div className="mt-4 grid gap-3">
-                  <div className="rounded-2xl bg-white/8 px-4 py-3">
-                    <p className="text-xs uppercase tracking-[0.18em] text-slate-300">
-                      Discovery
+              <div className="relative border-l border-white/15 pl-6">
+                {steps.map((step, index) => (
+                  <div className="relative pb-8 last:pb-0" key={step.title}>
+                    <span className="absolute -left-[2.1rem] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-400 ring-8 ring-slate-950" />
+                    <p className="text-xs uppercase tracking-[0.22em] text-slate-400">
+                      Step 0{index + 1}
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-100">
-                      A better way to shortlist opportunities that fit your direction.
-                    </p>
+                    <h4 className="mt-2 text-2xl leading-snug text-white">{step.title}</h4>
+                    <p className="mt-2 text-sm leading-7 text-slate-300">{step.description}</p>
                   </div>
-                  <div className="rounded-2xl bg-white/8 px-4 py-3">
-                    <p className="text-xs uppercase tracking-[0.18em] text-slate-300">
-                      Preparation
-                    </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-100">
-                      One place to keep your documents and next actions ready.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl bg-white/8 px-4 py-3">
-                    <p className="text-xs uppercase tracking-[0.18em] text-slate-300">
-                      Tracking
-                    </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-100">
-                      Better visibility from the first application to the final response.
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px-4 py-14 sm:px-6 md:py-20" id="journey">
-        <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+      <section className="px-4 py-16 sm:px-6 md:py-24" id="journey">
+        <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="space-y-5">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-500">
               How It Works
@@ -425,117 +297,125 @@ function Home() {
               A straightforward path from registration to follow-up
             </h2>
             <p className="text-lg leading-8 text-slate-600">
-              Students should be able to understand the flow quickly and keep moving without
-              losing track of important steps.
+              Students should understand the flow quickly and keep moving without losing
+              track of important steps.
             </p>
           </div>
 
-          <div className="grid gap-5">
-            {steps.map((step, index) => (
-              <article
-                className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.22)]"
-                key={step.title}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sm font-bold text-sky-700">
+          <div className="relative">
+            <div className="absolute left-5 top-0 hidden h-full w-px bg-slate-200 sm:block" />
+            <div className="space-y-9">
+              {steps.map((step, index) => (
+                <article className="relative grid gap-4 sm:grid-cols-[4rem_1fr]" key={step.title}>
+                  <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
                     0{index + 1}
                   </div>
-                  <div>
+                  <div className="border-b border-slate-200 pb-8">
                     <h3 className="text-3xl leading-snug text-slate-950">{step.title}</h3>
-                    <p className="mt-3 text-base leading-8 text-slate-600">{step.description}</p>
+                    <p className="mt-3 max-w-2xl text-base leading-8 text-slate-600">
+                      {step.description}
+                    </p>
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
 
-            <div className="rounded-[28px] border border-slate-200 bg-[linear-gradient(135deg,#eff6ff_0%,#ffffff_55%,#fff7ed_100%)] p-6">
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-white text-orange-500 shadow-sm">
-                  <CheckCircleIcon className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="text-3xl leading-snug text-slate-950">
-                    Less confusion, more follow-through
-                  </h3>
-                  <p className="mt-3 text-base leading-8 text-slate-600">
-                    The experience is designed to help students stay focused on the next
-                    practical action instead of guessing where they are in the process.
-                  </p>
-                </div>
+            <div className="mt-10 flex items-start gap-4 border-l-4 border-orange-400 bg-orange-50/70 px-5 py-5">
+              <CheckCircleIcon className="mt-1 h-6 w-6 flex-shrink-0 text-orange-500" />
+              <div>
+                <h3 className="text-2xl leading-snug text-slate-950">
+                  Less confusion, more follow-through
+                </h3>
+                <p className="mt-2 text-base leading-8 text-slate-600">
+                  The experience keeps students focused on the next practical action instead
+                  of guessing where they are in the process.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px-4 py-14 sm:px-6 md:py-20" id="contact">
-        <div className="mx-auto grid w-full max-w-7xl gap-8 rounded-[40px] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_45%,#fff7ed_100%)] p-6 shadow-[0_24px_70px_-32px_rgba(15,23,42,0.22)] md:p-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-5">
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-500">
-              Contact
-            </p>
-            <h2 className="text-4xl leading-tight text-slate-950 sm:text-5xl">
-              Need help, have a question, or want to connect around student attachment support?
-            </h2>
-            <p className="text-lg leading-8 text-slate-600">
-              Students should always have a clear place to go when they need more guidance or
-              a direct way to reach the team.
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-[28px] border border-slate-200 bg-white p-6">
-              <EnvelopeIcon className="h-7 w-7 text-orange-500" />
-              <h3 className="mt-5 text-3xl leading-snug text-slate-950">Email Support</h3>
-              <p className="mt-3 text-base leading-8 text-slate-600">
-                support@panatech.co.zw
+      <section className="px-4 pb-16 pt-6 sm:px-6 md:pb-24" id="contact">
+        <div className="mx-auto w-full max-w-7xl overflow-hidden bg-slate-950 text-white">
+          <div className="grid gap-10 bg-[radial-gradient(circle_at_15%_15%,rgba(249,115,22,0.28),transparent_30%),radial-gradient(circle_at_85%_20%,rgba(14,165,233,0.22),transparent_28%)] px-6 py-10 md:px-10 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="space-y-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-300">
+                Contact
+              </p>
+              <h2 className="text-4xl leading-tight text-white sm:text-5xl">
+                Need help, have a question, or want to connect around student attachment support?
+              </h2>
+              <p className="text-lg leading-8 text-slate-300">
+                Students should always have a clear place to go when they need more guidance
+                or a direct way to reach the team.
               </p>
             </div>
 
-            <div className="rounded-[28px] border border-slate-200 bg-white p-6">
-              <MapPinIcon className="h-7 w-7 text-orange-500" />
-              <h3 className="mt-5 text-3xl leading-snug text-slate-950">Zimbabwe Focus</h3>
-              <p className="mt-3 text-base leading-8 text-slate-600">
-                Built for students across Zimbabwe with one consistent attachment journey.
-              </p>
-            </div>
+            <div className="flex flex-col justify-between gap-8">
+              <div className="grid gap-5 border-y border-white/15 py-6 sm:grid-cols-2">
+                <div className="flex items-start gap-3">
+                  <EnvelopeIcon className="mt-1 h-6 w-6 flex-shrink-0 text-orange-300" />
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.22em] text-slate-400">
+                      Email Support
+                    </p>
+                    <p className="mt-2 text-base text-white">support@panatech.co.zw</p>
+                  </div>
+                </div>
 
-            <div className="rounded-[28px] border border-slate-200 bg-slate-950 p-6 text-white md:col-span-2">
-              <p className="text-sm uppercase tracking-[0.26em] text-orange-300">Get Started</p>
-              <h3 className="mt-4 text-3xl leading-snug text-white">
-                Ready to build your student profile and begin your attachment search?
-              </h3>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
-                Create an account to begin with a cleaner, more organized way to manage your
-                industrial attachment journey.
-              </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                {showAuthenticatedCta ? (
-                  <Link
-                    className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
-                    to={dashboardPath}
-                  >
-                    Open Dashboard
-                    <ArrowRightIcon className="ml-2 h-4 w-4" />
-                  </Link>
-                ) : (
-                  <>
+                <div className="flex items-start gap-3">
+                  <MapPinIcon className="mt-1 h-6 w-6 flex-shrink-0 text-orange-300" />
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.22em] text-slate-400">
+                      Zimbabwe Focus
+                    </p>
+                    <p className="mt-2 text-base leading-7 text-white">
+                      Built around one consistent attachment journey.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-sm uppercase tracking-[0.26em] text-orange-300">
+                  Get Started
+                </p>
+                <h3 className="mt-4 text-3xl leading-snug text-white">
+                  Ready to build your student profile and begin your attachment search?
+                </h3>
+                <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
+                  Create an account to begin with a cleaner, more organized way to manage
+                  your industrial attachment journey.
+                </p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  {showAuthenticatedCta ? (
                     <Link
                       className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
-                      to="/register"
+                      to={dashboardPath}
                     >
-                      <UserPlusIcon className="mr-2 h-4.5 w-4.5" />
-                      Create Account
+                      Open Dashboard
+                      <ArrowRightIcon className="ml-2 h-4 w-4" />
                     </Link>
-                    <Link
-                      className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-                      to="/login"
-                    >
-                      <UserCircleIcon className="mr-2 h-4.5 w-4.5" />
-                      Login
-                    </Link>
-                  </>
-                )}
+                  ) : (
+                    <>
+                      <Link
+                        className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+                        to="/register"
+                      >
+                        <UserPlusIcon className="mr-2 h-4.5 w-4.5" />
+                        Create Account
+                      </Link>
+                      <Link
+                        className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                        to="/login"
+                      >
+                        <UserCircleIcon className="mr-2 h-4.5 w-4.5" />
+                        Login
+                      </Link>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
