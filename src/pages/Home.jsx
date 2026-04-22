@@ -11,7 +11,7 @@ import {
   UserCircleIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
-import heroImage from "../assets/hero.png";
+import heroBackground from "../assets/herouz.jpg";
 import { useAuth } from "../contexts/AuthContext";
 
 const offerings = [
@@ -88,35 +88,39 @@ function Home() {
 
   return (
     <div className="overflow-hidden">
-      <section className="relative px-4 pb-14 pt-8 sm:px-6 md:pb-20">
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute left-[-8rem] top-6 h-64 w-64 rounded-full bg-orange-300/30 blur-3xl" />
-          <div className="absolute right-[-6rem] top-10 h-72 w-72 rounded-full bg-sky-300/35 blur-3xl" />
-          <div className="absolute bottom-[-8rem] left-1/3 h-72 w-72 rounded-full bg-slate-300/20 blur-3xl" />
+      <section
+        className="relative isolate flex min-h-[calc(100svh-76px)] overflow-hidden bg-slate-950 bg-cover bg-[position:center_top] px-4 py-14 text-white sm:min-h-[calc(100svh-84px)] sm:px-6 sm:py-16 md:py-20 lg:bg-center"
+        style={{
+          backgroundImage: `linear-gradient(105deg, rgba(2, 6, 23, 0.72) 0%, rgba(15, 23, 42, 0.5) 48%, rgba(15, 23, 42, 0.12) 100%), url(${heroBackground})`,
+        }}
+      >
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(249,115,22,0.14),transparent_28%),radial-gradient(circle_at_82%_20%,rgba(14,165,233,0.14),transparent_30%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/35 to-transparent" />
         </div>
 
-        <div className="mx-auto grid w-full max-w-7xl gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-          <div className="space-y-7">
-            <div className="inline-flex items-center rounded-full border border-slate-200 bg-white/85 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur">
-              <AcademicCapIcon className="mr-2 h-5 w-5 text-orange-500" />
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center">
+          <div className="max-w-3xl space-y-7 py-4 sm:py-8">
+            <div className="hero-reveal inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 shadow-sm backdrop-blur">
+              <AcademicCapIcon className="mr-2 h-5 w-5 text-orange-300" />
               Attachment support for Zimbabwean university students
             </div>
 
-            <div className="space-y-4">
-              <h1 className="max-w-4xl text-4xl font-normal leading-[1.08] tracking-[-0.03em] text-slate-950 sm:text-5xl xl:text-[3.8rem]">
+            <div className="hero-reveal hero-reveal-delay-1 space-y-4">
+              <h1 className="max-w-4xl text-4xl font-normal leading-[1.08] tracking-[-0.03em] text-white sm:text-5xl xl:text-[3.8rem]">
                 Move from scattered searching to a clearer attachment journey.
               </h1>
-              <p className="max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+              <p className="max-w-2xl text-base leading-8 text-slate-200 sm:text-lg">
                 panaTECH helps students find industrial attachment opportunities faster,
                 organize their search properly, and keep track of every important next step
                 in one place.
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="hero-reveal hero-reveal-delay-2 flex flex-col gap-3 sm:flex-row">
               {showAuthenticatedCta ? (
                 <Link
-                  className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_18px_40px_-18px_rgba(15,23,42,0.55)] transition hover:bg-slate-800"
+                  className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-[0_18px_40px_-18px_rgba(255,255,255,0.5)] transition hover:bg-slate-100"
                   to={dashboardPath}
                 >
                   Open Dashboard
@@ -133,7 +137,7 @@ function Home() {
                     <ArrowRightIcon className="ml-2 h-4 w-4" />
                   </Link>
                   <Link
-                    className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-50"
+                    className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:border-white/40 hover:bg-white/15"
                     to="/login"
                   >
                     <UserCircleIcon className="mr-2 h-4.5 w-4.5" />
@@ -142,58 +146,59 @@ function Home() {
                 </>
               )}
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div className="rounded-[24px] border border-white/70 bg-white/90 p-5 shadow-[0_20px_50px_-24px_rgba(15,23,42,0.2)]">
-                <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Reach</p>
-                <p className="mt-3 font-display text-2xl text-slate-950">Zimbabwe-wide</p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">
-                  Built for students preparing for industrial attachment across the country.
-                </p>
-              </div>
-              <div className="rounded-[24px] border border-slate-800 bg-slate-950 p-5 text-white shadow-[0_20px_50px_-24px_rgba(15,23,42,0.45)]">
-                <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Focus</p>
-                <p className="mt-3 font-display text-2xl text-white">Attachment-ready</p>
-                <p className="mt-2 text-sm leading-7 text-slate-300">
-                  A platform shaped around preparation, application, and follow-through.
-                </p>
-              </div>
-              <div className="rounded-[24px] border border-orange-200 bg-orange-50 p-5 shadow-[0_20px_50px_-24px_rgba(249,115,22,0.18)]">
-                <p className="text-sm uppercase tracking-[0.2em] text-orange-500">Result</p>
-                <p className="mt-3 font-display text-2xl text-slate-950">More clarity</p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">
-                  A cleaner way to know what has been done and what comes next.
-                </p>
-              </div>
+      <section className="px-4 py-12 sm:px-6 md:py-16" id="overview">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_20px_50px_-28px_rgba(15,23,42,0.2)]">
+              <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Reach</p>
+              <p className="mt-3 font-display text-2xl text-slate-950">Zimbabwe-wide</p>
+              <p className="mt-2 text-sm leading-7 text-slate-600">
+                Built for students preparing for industrial attachment across the country.
+              </p>
+            </div>
+            <div className="rounded-[24px] border border-slate-900 bg-slate-950 p-5 text-white shadow-[0_20px_50px_-28px_rgba(15,23,42,0.42)]">
+              <p className="text-sm uppercase tracking-[0.2em] text-orange-200">Focus</p>
+              <p className="mt-3 font-display text-2xl text-white">Attachment-ready</p>
+              <p className="mt-2 text-sm leading-7 text-slate-300">
+                A platform shaped around preparation, application, and follow-through.
+              </p>
+            </div>
+            <div className="rounded-[24px] border border-orange-200 bg-orange-50 p-5 shadow-[0_20px_50px_-28px_rgba(249,115,22,0.18)]">
+              <p className="text-sm uppercase tracking-[0.2em] text-orange-500">Result</p>
+              <p className="mt-3 font-display text-2xl text-slate-950">More clarity</p>
+              <p className="mt-2 text-sm leading-7 text-slate-600">
+                A cleaner way to know what has been done and what comes next.
+              </p>
             </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute -right-12 top-8 hidden h-28 w-28 rounded-full bg-orange-400/25 blur-3xl md:block" />
-            <div className="absolute -left-12 bottom-10 hidden h-28 w-28 rounded-full bg-sky-400/25 blur-3xl md:block" />
-
-            <div className="rounded-[34px] border border-slate-200 bg-white/90 p-4 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.3)] backdrop-blur">
+          <div className="mt-6 grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+            <div className="rounded-[34px] border border-slate-200 bg-white p-4 shadow-[0_28px_70px_-34px_rgba(15,23,42,0.28)]">
               <div className="rounded-[28px] bg-[linear-gradient(140deg,#0f172a_0%,#1d4ed8_58%,#f97316_100%)] p-5 text-white">
-                <div className="mb-6">
-                  <p className="text-sm uppercase tracking-[0.24em] text-orange-200">
-                    Student View
-                  </p>
-                  <h2 className="mt-3 text-3xl leading-tight text-white">
-                    Search, prepare, and track in one steady flow
-                  </h2>
-                </div>
+                <p className="text-sm uppercase tracking-[0.24em] text-orange-200">
+                  Student View
+                </p>
+                <h2 className="mt-3 text-3xl leading-tight text-white">
+                  Search, prepare, and track in one steady flow
+                </h2>
 
-                <div className="grid gap-4 sm:grid-cols-[1.08fr_0.92fr]">
-                  <div className="overflow-hidden rounded-[24px] border border-white/10 bg-white/10">
-                    <img
-                      alt="Students collaborating on attachment preparation"
-                      className="h-full min-h-[280px] w-full object-cover"
-                      src={heroImage}
-                    />
-                  </div>
+                <div className="mt-6 grid gap-4 sm:grid-cols-[1.08fr_0.92fr]">
+                  <div className="rounded-[24px] border border-white/10 bg-white/10 p-5">
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <p className="text-sm font-semibold text-white">Recommended role</p>
+                        <p className="mt-1 text-xs text-slate-300">Software support trainee</p>
+                      </div>
+                      <span className="rounded-full bg-orange-400/20 px-3 py-1 text-xs text-orange-100">
+                        92% match
+                      </span>
+                    </div>
 
-                  <div className="grid gap-4">
-                    <div className="rounded-[24px] border border-white/10 bg-white/10 p-4">
+                    <div className="mt-5 rounded-2xl bg-white/10 p-4">
                       <p className="text-xs uppercase tracking-[0.24em] text-orange-200">
                         Built For
                       </p>
@@ -201,43 +206,51 @@ function Home() {
                         Students preparing documents, shortlisting placements, and tracking progress with more confidence.
                       </p>
                     </div>
+                  </div>
 
-                    <div className="rounded-[24px] border border-white/10 bg-white/10 p-4">
-                      <p className="text-xs uppercase tracking-[0.24em] text-orange-200">
-                        Application Flow
-                      </p>
-                      <div className="mt-3 grid gap-2">
-                        {applicationStates.map((state) => (
-                          <div
-                            className="flex items-center justify-between rounded-2xl bg-white/8 px-3 py-2"
-                            key={state.label}
-                          >
-                            <span className="text-sm text-slate-100">{state.label}</span>
-                            <span className={`h-2.5 w-2.5 rounded-full ${state.tone}`} />
-                          </div>
-                        ))}
-                      </div>
+                  <div className="rounded-[24px] border border-white/10 bg-white/10 p-4">
+                    <div className="mb-3 flex items-center justify-between text-xs uppercase tracking-[0.18em] text-slate-300">
+                      <span>Applications</span>
+                      <span>Updated</span>
                     </div>
-
-                    <div className="rounded-[24px] border border-white/10 bg-white/10 p-4">
-                      <p className="text-xs uppercase tracking-[0.24em] text-orange-200">
-                        Readiness
-                      </p>
-                      <div className="mt-3 grid gap-3">
-                        {progressItems.map((item) => (
-                          <div key={item.label}>
-                            <div className="mb-2 flex items-center justify-between text-xs text-slate-100">
-                              <span>{item.label}</span>
-                            </div>
-                            <div className="h-2 rounded-full bg-white/15">
-                              <div className={`h-2 rounded-full ${item.tone} ${item.width}`} />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                    <div className="grid gap-2">
+                      {applicationStates.map((state) => (
+                        <div
+                          className="flex items-center justify-between rounded-xl bg-white/8 px-3 py-2"
+                          key={state.label}
+                        >
+                          <span className="text-sm text-slate-100">{state.label}</span>
+                          <span className={`h-2.5 w-2.5 rounded-full ${state.tone}`} />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="rounded-[34px] border border-slate-200 bg-white p-6 shadow-[0_28px_70px_-34px_rgba(15,23,42,0.24)]">
+              <p className="text-sm uppercase tracking-[0.24em] text-orange-500">
+                Readiness
+              </p>
+              <h2 className="mt-3 text-3xl leading-tight text-slate-950">
+                Keep every important attachment step visible.
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                A simple workspace helps students stay aware of preparation, submissions, and follow-ups without guessing.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {progressItems.map((item) => (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4" key={item.label}>
+                    <div className="mb-2 flex items-center justify-between text-sm text-slate-700">
+                      <span>{item.label}</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-slate-200">
+                      <div className={`h-2 rounded-full ${item.tone} ${item.width}`} />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -337,12 +350,30 @@ function Home() {
             </div>
 
             <div className="grid gap-4 lg:grid-cols-[1fr_0.82fr]">
-              <div className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5">
-                <img
-                  alt="Students preparing together for industrial attachment"
-                  className="h-full min-h-[250px] w-full object-cover"
-                  src={heroImage}
-                />
+              <div className="rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_20%_20%,rgba(249,115,22,0.24),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.10),rgba(255,255,255,0.04))] p-5">
+                <p className="text-sm uppercase tracking-[0.24em] text-orange-300">
+                  Student Journey
+                </p>
+                <div className="mt-5 grid gap-4">
+                  {steps.map((step, index) => (
+                    <div
+                      className="rounded-2xl border border-white/10 bg-white/8 px-4 py-4"
+                      key={step.title}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-sm font-bold text-slate-950">
+                          {index + 1}
+                        </span>
+                        <div>
+                          <p className="text-base font-semibold text-white">{step.title}</p>
+                          <p className="mt-1 text-sm leading-7 text-slate-300">
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
