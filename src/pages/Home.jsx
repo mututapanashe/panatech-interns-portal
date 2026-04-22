@@ -12,6 +12,7 @@ import {
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import heroBackground from "../assets/herouz.jpg";
+import zimbabweVisual from "../assets/zimbawe.jpg";
 import { useAuth } from "../contexts/AuthContext";
 
 const offerings = [
@@ -289,10 +290,7 @@ function Home() {
                       <Icon className="h-7 w-7" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-500">
-                        Core Flow
-                      </p>
-                      <h3 className="mt-3 text-3xl leading-snug text-slate-950">
+                      <h3 className="text-3xl leading-snug text-slate-950">
                         {item.title}
                       </h3>
                       <p className="mt-3 max-w-2xl text-base leading-8 text-slate-600">
@@ -313,6 +311,11 @@ function Home() {
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-300">
               For Zimbabwean Students
             </p>
+            <img
+              alt="Zimbabwe flag visual"
+              className="h-44 w-full object-cover sm:h-56 lg:h-64"
+              src={zimbabweVisual}
+            />
             <h2 className="max-w-2xl text-4xl leading-tight text-white sm:text-5xl">
               Built for students across Zimbabwean universities.
             </h2>
